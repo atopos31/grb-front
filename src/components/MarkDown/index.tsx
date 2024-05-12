@@ -27,6 +27,7 @@ const OmsViewMarkdown = (props: tProps) => {
             return !inline && match ? (
               <SyntaxHighlighter
                 showLineNumbers={true}
+                // 这里修改了源码 style?: { [key: string]: React.CSSProperties } ; => style: { [key: string]: React.CSSProperties }| CSSProperties ;
                 style={darkMode ? them.dark : them.light}
                 language={match[1]}
                 PreTag="div"
