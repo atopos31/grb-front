@@ -1,0 +1,13 @@
+.result {
+  font-size: large;
+  background-color: rgba(var(--semi-grey-5), .1);
+  padding: 20px;
+  img {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+  }
+  p:has(img) {
+    text-align: center;
+  }
+}

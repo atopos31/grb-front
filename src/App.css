@@ -1,0 +1,6 @@
+body {
+  margin: 0 !important;
+  color: var(--semi-color-text-1);
+  background-color: var( --semi-color-bg-0);
+  -webkit-tap-highlight-color: transparent;
+}

@@ -1,0 +1,24 @@
+.container {
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+}
+
+.Navf {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    width: 98%;
+    margin: 1%;
+    height: 60px;
+    top: 0;
+    z-index: 999;
+}
+
+.NavHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    gap: 20px;
+}
