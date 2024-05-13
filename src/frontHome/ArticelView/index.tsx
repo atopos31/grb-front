@@ -64,7 +64,8 @@ fmt.print("hello world")
           <div
             className="nav"
           >
-            <MarkNav className="toc-list" source={value} ordered={true} />
+            {/* markdown文本内容 value 点击跳转 true 窗口顶部相对锚点位移 80 地址栏自动更新哈希值 true */}
+            <MarkNav className="toc-list" source={value} ordered={true} headingTopOffset={80} updateHashAuto={true}/>
           </div>
         )}
       </div>

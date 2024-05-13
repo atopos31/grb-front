@@ -72,10 +72,19 @@
   gap: 10px;
   font-size: medium;
   flex-wrap: wrap;
+  padding: 0 20px;
+  border-bottom: 1px;
 }
 
 .cover-info {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.tag {
+  background-color: rgba(var(--semi-grey-5), .2);
+  border-radius: 20%;
+  cursor: pointer;
+  font-weight: bold;
 }

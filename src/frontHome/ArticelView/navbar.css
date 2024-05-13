@@ -7,7 +7,7 @@
   
   .markdown-navigation .title-anchor {
     display: block;
-    transition: all 0.2s;
+    transition: all 0.5s;
     margin: 0.8em 0;
     font-weight: lighter;
     line-height: 2em;
@@ -17,6 +17,7 @@
   
   .markdown-navigation .title-anchor:hover{
     color: #007fff;
+    background-color: #0000;
 
   }
   .markdown-navigation .title-anchor.active {
