@@ -1,8 +1,8 @@
 import "./iindex.css";
 import { useMediaPredicate } from "react-media-hook";
-import { Articel } from "../articel/articel";
+import { Articel } from "../../components/articel/articel";
 import { IconChevronDown } from "@douyinfe/semi-icons";
-import SocialButton from "../../../components/buttons/socialButton";
+import SocialButton from "../../components/buttons/socialButton";
 
 const cardConfigs = [
   {

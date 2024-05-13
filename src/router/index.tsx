@@ -1,6 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
 import {App} from "../App";
-import ContentHome from "../frontHome/Content/contentHome";
+import ContentHome from "../frontHome/ContentHome";
 import ArticelView from "../frontHome/ArticelView";
 
 const router = createBrowserRouter([

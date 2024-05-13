@@ -2,7 +2,7 @@ import MarkDown from "../../components/MarkDown";
 import "./articel.scss";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../App";
-import { Cover } from "../Content/articel/articel";
+import { Cover } from "../../components/articel/articel";
 import { useMediaPredicate } from "react-media-hook";
 import MarkNav from "markdown-navbar";
 import "markdown-navbar/dist/navbar.css";

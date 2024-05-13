@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Head from "./frontHome/header";
+import Head from "./frontHome/Header";
 import "./App.css";
 import { useEffect, useState } from "react";
 import React from "react";
