@@ -1,4 +1,4 @@
-import "./iindex.css";
+import "./iindex.scss";
 import { useMediaPredicate } from "react-media-hook";
 import { Articel } from "../../components/articel/articel";
 import { IconChevronDown } from "@douyinfe/semi-icons";
@@ -62,7 +62,7 @@ const ContentHome = () => {
     });
   };
   return (
-    <>
+    <div style={{display: "flex", flexDirection: "column",justifyContent: "center",alignItems: "center"}}>
       {/*介绍和头像 */}
       <div
         className="home"
@@ -89,8 +89,8 @@ const ContentHome = () => {
             </h1>
             <h3>A Web Developer</h3>
             <div className="Social">
-              {socialConfigs.map((item) => (
-                <SocialButton SocialName={item.name} url={item.url} />
+              {socialConfigs.map((item,index) => (
+                <SocialButton key={index} SocialName={item.name} url={item.url} />
               ))}
             </div>
           </div>
@@ -104,7 +104,7 @@ const ContentHome = () => {
           <Articel key={index} {...cardConfig} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

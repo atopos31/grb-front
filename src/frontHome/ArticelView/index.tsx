@@ -4,12 +4,16 @@ import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../App";
 import { Cover } from "../../components/articel/articel";
 import { useMediaPredicate } from "react-media-hook";
-import MarkNav from "markdown-navbar";
 import "markdown-navbar/dist/navbar.css";
 import "./navbar.css";
+import { useParams } from "react-router-dom";
+import { MdCatalog } from "md-editor-rt";
+
 const ArticelView = () => {
-  const [value, setValue] = useState("");
+  const [content, setContent
+  ] = useState("");
   const isDark = useContext(ThemeContext);
+  //测试文章
   const textContent = `
 ## 项目简介
 本项目后端使用gin、gorm和ssh、sftp开发。旨在编写一个轻量，易用，多平台的运维项目。
@@ -22,9 +26,9 @@ const ArticelView = () => {
 - ssh命令批量执行
 - 文件批量的上传 流式传输支持大文件
 - 基于sftp文件浏览器
-\`\`\`java
-fmt.print("hello world")
-测试
+\`\`\`js
+console.log("hello world");
+//测试
 \`\`\`
 ![](https://www.hackerxiao.online/wp-content/uploads/2023/09/head.jpg)
 
@@ -32,9 +36,17 @@ fmt.print("hello world")
 
 ### 查看后端代码请移步到`;
   const biggerThan768 = useMediaPredicate("(min-width: 768px)");
+  //获取文章id
+  const {uuid} = useParams();
   useEffect(() => {
-    setValue(textContent);
+    console.log(uuid);
+    //向后端获取文章内容
+    setContent(textContent);
   }, []);
+
+
+  const [id] = useState('preview-only');
+  const [scrollElement] = useState(document.documentElement);
 
   return (
     <div className="articleview">
@@ -58,14 +70,13 @@ fmt.print("hello world")
           className="content"
           style={biggerThan768 ? { width: "80%" } : { width: "100%" }}
         >
-          <MarkDown textContent={value} darkMode={isDark}></MarkDown>
+          <MarkDown textContent={content} darkMode={isDark}></MarkDown>
         </div>
         {biggerThan768 && (
           <div
             className="nav"
           >
-            {/* markdown文本内容 value 点击跳转 true 窗口顶部相对锚点位移 80 地址栏自动更新哈希值 true */}
-            <MarkNav className="toc-list" source={value} ordered={true} headingTopOffset={80} updateHashAuto={true}/>
+            <MdCatalog editorId={id} scrollElement={scrollElement} scrollElementOffsetTop={80}/>
           </div>
         )}
       </div>

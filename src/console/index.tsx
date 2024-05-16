@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom";
-import Head from "./frontHome/Header";
-import "./App.css";
 import { useEffect, useState } from "react";
-import React from "react";
-import Footer from "./frontHome/Footer";
+import { ThemeContext } from "../App";
+import { Outlet } from "react-router-dom";
+import "./index.css";
+import NavH from "../components/NavH";
+import NavV from "../components/NavV";
 
 //用户初次访问 使用系统主题
 const SysDefultTheme = window.matchMedia("(prefers-color-scheme: light)")
@@ -16,10 +16,8 @@ const localDefultTheme = localStorage.getItem("theme-mode");
 const defultTheme = localDefultTheme
   ? localDefultTheme === "dark"
   : SysDefultTheme;
-//主題上下文 全局可以获取到
-const ThemeContext = React.createContext(defultTheme);
 
-export function App() {
+const Console = () => {
   //全局黑暗 白天模式切换
   const [isDark, setDark] = useState(defultTheme);
 
@@ -35,16 +33,15 @@ export function App() {
   }, [isDark]);
   return (
     <ThemeContext.Provider value={isDark}>
-      <>
-        {/* 顶部栏 */}
-        <Head setDark={setDark} isDark={isDark} />
-        {/* 子路由切换 */}
-        <Outlet />
-        {/* 底部栏 */}
-        <Footer />
-      </>
+      <div className="consoleHome">
+        <NavH setDark={setDark} isDark={isDark}/>
+        <div className="console-main">
+          <NavV />
+          <Outlet />
+        </div>
+      </div>
     </ThemeContext.Provider>
   );
-}
+};
 
-export { ThemeContext };
+export default Console;

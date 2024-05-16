@@ -1,0 +1,8 @@
+.consoleHome {
+    height: 100vh;
+}
+
+.console-main {
+    display: flex;
+    height: calc(100vh - 60px);
+}

@@ -1,10 +1,11 @@
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   vscDarkPlus,
   duotoneLight
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import "./index.scss";
+import { MdPreview } from 'md-editor-rt';
+import 'md-editor-rt/lib/preview.css';
+import { useState } from "react";
 
 type tProps = {
   textContent: string;
@@ -18,33 +19,10 @@ const them = {
 
 const OmsViewMarkdown = (props: tProps) => {
   const { textContent, darkMode } = props; 
+  const [id] = useState('preview-only');
   return (
     <div className="result" style={{width: "100%"}}>
-      <ReactMarkdown
-        components={{
-          code({ node, inline, className, children, ...props }) {
-            const match = /language-(\w+)/.exec(className || "");
-            return !inline && match ? (
-              <SyntaxHighlighter
-                showLineNumbers={true}
-                // 这里修改了源码 style?: { [key: string]: React.CSSProperties } ; => style: { [key: string]: React.CSSProperties }| CSSProperties ;
-                style={darkMode ? them.dark : them.light}
-                language={match[1]}
-                PreTag="div"
-                {...props}
-              >
-                {String(children).replace(/\n$/, "")}
-              </SyntaxHighlighter>
-            ) : (
-              <code className={className} {...props}>
-                {children}
-              </code>
-            );
-          },
-        }}
-      >
-        {textContent}
-      </ReactMarkdown>
+      <MdPreview editorId={id} modelValue={textContent} theme= {darkMode ? 'dark' : 'light'}  codeTheme="github"/>
     </div>
   );
 };

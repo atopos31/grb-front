@@ -32,7 +32,6 @@ const Articel = ({ title, createTime, img, content }: Articel) => {
       bordered={false}
       style={{
         backgroundColor: backgroundColor,
-        maxWidth: biggerThan768 ? "80%" : "98%",
       }}
     >
       <div className="font" style={{ fontSize: "1rem" }}>
@@ -103,7 +102,7 @@ const CoverWith = ({ title, img, createTime }: CoverWithProps) => {
       <img className="coverwith-cover" alt="example" src={img} />
       <div className="coverwith-content">
         <p className="coverwith-title">{title}</p>
-        <div className="cover-infos">
+        <div className="cover-infos" style={{color: "#ffffff"}}>
         <a className="cover-info">
           <IconHistory />
           {createTime}

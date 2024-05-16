@@ -1,0 +1,22 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // letter-spacing: 2px;
+    // gap: 2px;
+    margin: 20px;
+}
+
+.content {
+    max-width: 80%;
+
+    @media screen and (max-width: 768px) {
+        max-width: 100%;
+    }
+}
+
+
+p {
+    margin: 0;
+}

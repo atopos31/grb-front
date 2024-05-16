@@ -1,7 +1,6 @@
 .result {
   font-size: large;
   background-color: rgba(var(--semi-grey-5), .1);
-  padding: 20px;
   img {
     max-width: 500px;
     width: 100%;
@@ -10,4 +9,15 @@
   p:has(img) {
     text-align: center;
   }
+}
+.md-editor-dark {
+  --md-bk-color: rgba(var(--semi-grey-5), 0) !important;
+}
+
+.md-editor {
+  --md-bk-color: rgba(var(--semi-grey-5), 0) !important;
+}
+
+.md-editor-catalog-active>span {
+  color: rgba(var(--semi-blue-7), 1) !important;
 }

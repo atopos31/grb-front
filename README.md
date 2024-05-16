@@ -2,7 +2,7 @@
 我的个人博客项目
 ![主页](./img/home.png)
 
-# React + TypeScript + Vite
+# React + TypeScript + Vite + Semi UI
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
