@@ -4,8 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../App";
 import { Cover } from "../../components/articel/articel";
 import { useMediaPredicate } from "react-media-hook";
-import "markdown-navbar/dist/navbar.css";
-import "./navbar.css";
 import { useParams } from "react-router-dom";
 import { MdCatalog } from "md-editor-rt";
 

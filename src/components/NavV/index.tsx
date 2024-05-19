@@ -1,5 +1,6 @@
 import { IconEdit } from "@douyinfe/semi-icons";
 import { Nav } from "@douyinfe/semi-ui";
+import { useNavigate } from "react-router-dom";
 
 const items = [
   {
@@ -8,7 +9,7 @@ const items = [
     icon: <IconEdit />,
     items: [
       {
-        itemKey: "editArticle",
+        itemKey: "/console/editor",
         text: "写文章",
       },
       {
@@ -20,6 +21,8 @@ const items = [
 ];
 
 const NavV = () => {
+    //路由跳转
+    const navigate = useNavigate();
 
   return (
     <Nav
@@ -27,7 +30,7 @@ const NavV = () => {
       className="nava"
       bodyStyle={{ height: "100%" }}
       items={items}
-      onSelect={(key) => console.log(key)}
+      onSelect={(key) => navigate(key.itemKey.toString())}
       footer={{
         collapseButton: true,
       }}

@@ -4,6 +4,7 @@ import ContentHome from "../frontHome/ContentHome";
 import ArticelView from "../frontHome/ArticelView";
 import Console from "../console";
 import ConsoleHome from "../console/home";
+import ArticleEditor from "../console/ArticleEditor";
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <ConsoleHome/>
+            },
+            {
+                path: "editor",
+                element: <ArticleEditor/>
             }
         ]
     }
