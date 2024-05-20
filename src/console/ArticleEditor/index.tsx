@@ -20,7 +20,7 @@ const ArticleEditor = () => {
   const [tags, setags] = useState<string[]>([]);
   const [cate, setcate] = useState<string>();
   const [top, setop] = useState(false);
-
+  
   const list = [
     { value: "abc", label: "抖音", otherKey: 0 },
     { value: "jianying", label: "剪映", otherKey: 1 },
