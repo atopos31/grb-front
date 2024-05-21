@@ -11,14 +11,14 @@ import {
   Upload,
 } from "@douyinfe/semi-ui";
 import "./editor.css";
-import { customRequestArgs } from "@douyinfe/semi-ui/lib/es/upload";
-import ossUpLoad from "../../utils/ossUpLoad";
+import { markdownUpImg ,mockRequest} from "../../utils/ossUpLoad";
 
 const ArticleEditor = () => {
   const isDark = useContext(ThemeContext);
   const tagInputRef = useRef(null);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("hello md-editor-rt！");
+  const [coverImg,setCoverImg] = useState("");
   const [tags, setags] = useState<string[]>([]);
   const [cate, setcate] = useState<string>();
   const [top, setop] = useState(false);
@@ -30,29 +30,12 @@ const ArticleEditor = () => {
   ];
   //发布文章
   const Submmit = () => {
-    console.log(title, text, tags, cate, top);
-  };
-  //上传封面
-  const mockRequest = (pops: customRequestArgs) => {
-    const { fileInstance, onSuccess, onProgress, onError } = pops;
-    ossUpLoad(
-      fileInstance,
-      (next: any) => {
-        onProgress({ total: 100, loaded: next.total.percent });
-      },
-      (error: any) => {
-        onError(error);
-      },
-      (complete: any) => {
-        onSuccess(complete);
-      }
-    );
+    console.log(title, text, tags, cate, top,coverImg);
   };
   //通过点击添加标签
   const tagAdd = (e: any) => {
     console.log(cate);
     let tag = (e.target as HTMLButtonElement).innerText;
-
     //标签去重
     if (tags.includes(tag)) return;
     //聚焦
@@ -143,7 +126,8 @@ const ArticleEditor = () => {
             limit={1}
             picHeight={145}
             picWidth={360}
-            onSuccess={(res) => console.log(res)}
+            // 在这里接收并设置返回的封面图片地址
+            onSuccess={(imgurl) => setCoverImg(imgurl)}
             customRequest={mockRequest}
             listType="picture"
           >
@@ -167,7 +151,7 @@ const ArticleEditor = () => {
             style={{ height: "30%", fontSize: "20px" }}
             onClick={Submmit}
           >
-            发布
+            发布文章
           </Button>
           <Button
             theme="light"
@@ -184,6 +168,7 @@ const ArticleEditor = () => {
         toolbars={["revoke", "next", "save", "preview", "previewOnly"]}
         modelValue={text}
         onChange={setText}
+        onUploadImg={markdownUpImg}
         theme={isDark ? "dark" : "light"}
         previewTheme="github"
         codeTheme="github"
