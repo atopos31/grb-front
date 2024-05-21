@@ -31,6 +31,7 @@ const Console = () => {
       window.localStorage.setItem("theme-mode", "light");
     }
   }, [isDark]);
+
   return (
     <ThemeContext.Provider value={isDark}>
       <div className="consoleHome">

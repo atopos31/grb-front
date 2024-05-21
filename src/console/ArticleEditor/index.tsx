@@ -11,6 +11,8 @@ import {
   Upload,
 } from "@douyinfe/semi-ui";
 import "./editor.css";
+import { customRequestArgs } from "@douyinfe/semi-ui/lib/es/upload";
+import ossUpLoad from "../../utils/ossUpLoad";
 
 const ArticleEditor = () => {
   const isDark = useContext(ThemeContext);
@@ -20,15 +22,31 @@ const ArticleEditor = () => {
   const [tags, setags] = useState<string[]>([]);
   const [cate, setcate] = useState<string>();
   const [top, setop] = useState(false);
-  
+
   const list = [
     { value: "abc", label: "抖音", otherKey: 0 },
     { value: "jianying", label: "剪映", otherKey: 1 },
     { value: "toutiao", label: "今日头条", otherKey: 2 },
   ];
-  //上传
+  //发布文章
   const Submmit = () => {
     console.log(title, text, tags, cate, top);
+  };
+  //上传封面
+  const mockRequest = (pops: customRequestArgs) => {
+    const { fileInstance, onSuccess, onProgress, onError } = pops;
+    ossUpLoad(
+      fileInstance,
+      (next: any) => {
+        onProgress({ total: 100, loaded: next.total.percent });
+      },
+      (error: any) => {
+        onError(error);
+      },
+      (complete: any) => {
+        onSuccess(complete);
+      }
+    );
   };
   //通过点击添加标签
   const tagAdd = (e: any) => {
@@ -121,10 +139,12 @@ const ArticleEditor = () => {
         {/* 封面上传 */}
         <div className="upload">
           <Upload
+            action=""
+            limit={1}
             picHeight={145}
             picWidth={360}
             onSuccess={(res) => console.log(res)}
-            action="https://api.semi.design/upload"
+            customRequest={mockRequest}
             listType="picture"
           >
             <Button>上传封面</Button>
