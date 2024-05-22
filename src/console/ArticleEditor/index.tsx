@@ -11,26 +11,27 @@ import {
   Upload,
 } from "@douyinfe/semi-ui";
 import "./editor.css";
-import { markdownUpImg ,mockRequest} from "../../utils/ossUpLoad";
+import { markdownUpImg, mockRequest } from "../../utils/ossUpLoad";
 
 const ArticleEditor = () => {
   const isDark = useContext(ThemeContext);
   const tagInputRef = useRef(null);
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("hello md-editor-rt！");
-  const [coverImg,setCoverImg] = useState("");
-  const [tags, setags] = useState<string[]>([]);
-  const [cate, setcate] = useState<string>();
-  const [top, setop] = useState(false);
+  const [title, setTitle] = useState<string>("");
+  const [text, setText] = useState<string>("");
+  const [coverImg, setCoverImg] = useState<string>("");
+  const [tags, setags] = useState<string[]>([]); //标签
+  const [cate, setcate] = useState<number>(); //分类
+  const [top, setop] = useState<boolean>(false); //置顶
 
+  // TODO 获取分类列表
   const list = [
-    { value: "abc", label: "抖音", otherKey: 0 },
-    { value: "jianying", label: "剪映", otherKey: 1 },
-    { value: "toutiao", label: "今日头条", otherKey: 2 },
+    { value: 1, label: "日常", otherKey: 0 },
+    { value: 2, label: "技术", otherKey: 1 },
+    { value: 3, label: "今日头条", otherKey: 2 },
   ];
-  //发布文章
+  // TODO 发布文章
   const Submmit = () => {
-    console.log(title, text, tags, cate, top,coverImg);
+    console.log(title, text, tags, cate, top, coverImg);
   };
   //通过点击添加标签
   const tagAdd = (e: any) => {
@@ -51,6 +52,7 @@ const ArticleEditor = () => {
   };
 
   const onChangeCate = (v: any) => {
+    console.log(v);
     setcate(v);
   };
 
