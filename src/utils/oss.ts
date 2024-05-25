@@ -12,12 +12,12 @@ export interface OssConfig {
 const GetOssConfig = async (): Promise<OssConfig> => {
     const res = await GetUpToken();
     const OssC: OssConfig = {
-        domain: res.data.data.domain,
-        bucket: res.data.data.bucket,
-        region: res.data.data.region,
-        keyprefix: res.data.data.keyprefix,
-        imgprocess: res.data.data.imgprocess,
-        upToken: res.data.data.uptoken,
+        domain: res.data.domain,
+        bucket: res.data.bucket,
+        region: res.data.region,
+        keyprefix: res.data.keyprefix,
+        imgprocess: res.data.imgprocess,
+        upToken: res.data.uptoken,
     }
     return OssC;
 }

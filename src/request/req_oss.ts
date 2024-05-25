@@ -1,3 +1,3 @@
-import request from "./request";
+import http from "./request";
 
-export const GetUpToken = ()=>request.get("/oss/uptoken")
+export const GetUpToken = ()=>http.get("/oss/uptoken")

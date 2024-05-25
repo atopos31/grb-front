@@ -4,14 +4,17 @@ import { useContext, useRef, useState } from "react";
 import { ThemeContext } from "../../App";
 import {
   Button,
+  DatePicker,
   Input,
   Select,
   Switch,
   TagInput,
+  Toast,
   Upload,
 } from "@douyinfe/semi-ui";
 import "./editor.css";
 import { markdownUpImg, mockRequest } from "../../utils/ossUpLoad";
+import { createArticle } from "../../request/req_article";
 
 const ArticleEditor = () => {
   const isDark = useContext(ThemeContext);
@@ -22,6 +25,8 @@ const ArticleEditor = () => {
   const [tags, setags] = useState<string[]>([]); //标签
   const [cate, setcate] = useState<number>(); //分类
   const [top, setop] = useState<boolean>(false); //置顶
+  const [time, setTime] = useState<Date>();
+  const [uuid, setUuid] = useState<number>();
 
   // TODO 获取分类列表
   const list = [
@@ -30,10 +35,30 @@ const ArticleEditor = () => {
     { value: 3, label: "今日头条", otherKey: 2 },
   ];
   // TODO 发布文章
-  const Submmit = () => {
-    console.log(title, text, tags, cate, top, coverImg);
+  const Submmit = async () => {
+    if (uuid) return;
+
+    console.log(title, text, tags, cate, top, coverImg, time?.getTime());
+    console.log(time?.getTime().toString() ?? "0");
+    const res: any = await createArticle({
+      title: title,
+      content: text,
+      tags: tags,
+      category_id: Number(cate),
+      top: top ? 1 : 0,
+      cover_image: coverImg,
+      created_at: time?.getTime().toString() ?? "",
+      status: 1,
+    });
+    console.log(res);
+    if (res.code == 200) {
+      Toast.success("发布成功");
+      setUuid(Number(res.data));
+    }
   };
-  //通过点击添加标签
+  // TODO 更新文章
+
+  // 通过点击最多使用的标签来添加标签
   const tagAdd = (e: any) => {
     console.log(cate);
     let tag = (e.target as HTMLButtonElement).innerText;
@@ -122,7 +147,7 @@ const ArticleEditor = () => {
           </div>
         </div>
         {/* 封面上传 */}
-        <div className="upload">
+        <div className="upload" style={{ padding: 10 }}>
           <Upload
             action=""
             limit={1}
@@ -153,7 +178,7 @@ const ArticleEditor = () => {
             style={{ height: "30%", fontSize: "20px" }}
             onClick={Submmit}
           >
-            发布文章
+            {uuid ? "更新文章" : "发布文章"}
           </Button>
           <Button
             theme="light"
@@ -162,6 +187,14 @@ const ArticleEditor = () => {
           >
             存为草稿
           </Button>
+          <DatePicker
+            prefix="发布时间"
+            type="dateTime"
+            value={time}
+            onChange={(v) => {
+              setTime(v as Date);
+            }}
+          />
         </div>
       </div>
       <MdEditor

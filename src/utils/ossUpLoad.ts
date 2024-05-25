@@ -21,7 +21,7 @@ const markdownUpImg = async (files: Array<File>, callBack: UploadImgCallBack) =>
     files.map(async (file) => {
         // 立即弹出上传中 提高用户体验
         Toast.info({ content: file.name + "上传中:" + "0%", duration: 0, id: file.name })
-        await ossUpLoad(OssConfig,
+        await ossQiNiuUpLoad(OssConfig,
             file,
             (next: any) => {
                 // 上传进度展示
@@ -53,7 +53,7 @@ const mockRequest = async (pops: customRequestArgs) => {
     const { fileInstance, onSuccess, onProgress, onError } = pops;
     // 获取oss配置
     const OssConfig = await GetOssConfig()
-    ossUpLoad(
+    ossQiNiuUpLoad(
         OssConfig,
         fileInstance,
         (next: any) => {
@@ -74,7 +74,7 @@ const mockRequest = async (pops: customRequestArgs) => {
     );
 };
 
-const ossUpLoad = async (ossConfig: OssConfig, file: File, next: any, error: any, complete: any) => {
+const ossQiNiuUpLoad = async (ossConfig: OssConfig, file: File, next: any, error: any, complete: any) => {
     // 使用文件名生成MD5
     const fileMD5 = await SparkMD5.hashBinary(file.name)
     // 获取文件扩展名
