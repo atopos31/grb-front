@@ -2,7 +2,7 @@ import MarkDown from "../../components/MarkDown";
 import "./articel.scss";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../App";
-import { Cover } from "../../components/articel/articel";
+import { Cover, CoverNoWith } from "../../components/articel/articel";
 import { useMediaPredicate } from "react-media-hook";
 import { useParams } from "react-router-dom";
 import { MdCatalog } from "md-editor-rt";
@@ -52,13 +52,10 @@ console.log("hello world");
         className="head"
         style={biggerThan768 ? { width: "80%" } : { width: "90%" }}
       >
-        <Cover
-          title={"ceshi"}
+        <CoverNoWith
+          title={"测试标题"}
           createTime={"2023.4.5"}
-          img={
-            "https://www.hackerxiao.online/wp-content/uploads/2024/04/屏幕截图-2024-04-29-202839.png"
-          }
-        ></Cover>
+        ></CoverNoWith>
       </div>
       <div
         className="article"

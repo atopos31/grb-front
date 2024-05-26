@@ -53,6 +53,12 @@
   width: 300px;
 }
 
+.avatar-small {
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+}
+
 .iconchevron {
   font-size: 50px;
   position: absolute;
@@ -84,9 +90,28 @@
   justify-content: center;
   align-items: center;
   margin: 20px;
-  max-width: 80%;
+  max-width: 70%;
   @media screen and (max-width: 768px) {
     max-width: 98%;
     
   }
+}
+
+.infos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 30%;
+  margin: 20px;
+  top: 85px;
+  position: sticky;
+  align-self: self-start;
+  @media screen and (max-width: 768px) {
+    display: none;
+    
+  }
+}
+
+.info-tag:hover {
+  text-decoration: underline;
 }

@@ -86,7 +86,10 @@ const ArticleEditor = () => {
   };
 
   return (
-    <div className="articleeditor" style={{ width: "100%", padding: "20px" }}>
+    <div
+      className="articleeditor"
+      style={{overflowY: "scroll",scrollBehavior: "smooth", width: "100%", padding: "20px", overscrollBehavior: "contain" }}
+    >
       {/* 选项输入 */}
       <div className="input" style={{ display: "flex", gap: "20px" }}>
         {/* 标题 分类 标签 */}
@@ -199,7 +202,7 @@ const ArticleEditor = () => {
       </div>
       <MdEditor
         className="editor"
-        // style={{ height: "80%" }}
+        style={{ height: "90vh" }}
         toolbars={["revoke", "next", "save", "preview", "previewOnly"]}
         modelValue={text}
         onChange={setText}

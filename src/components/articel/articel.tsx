@@ -32,6 +32,7 @@ const Articel = ({ title, createTime, img, content }: Articel) => {
       bordered={false}
       style={{
         backgroundColor: backgroundColor,
+        width:"100%"
       }}
     >
       <div className="font" style={{ fontSize: "1rem" }}>
@@ -52,7 +53,7 @@ const Cover = ({ title, createTime, img }: CoverWithProps) => {
   }
 };
 
-const CoverNoWith = ({ title, createTime }: CoverProps) => {
+export const CoverNoWith = ({ title, createTime }: CoverProps) => {
   const Navigate = useNavigate();
   return (
     <div className="cover">
@@ -71,7 +72,7 @@ const CoverNoWith = ({ title, createTime }: CoverProps) => {
         </a>
         |
         <a className="cover-info">
-          <IconHistory />
+          <IconHistory/>
           {createTime}
         </a>|
         <a className="cover-info">
