@@ -1,58 +1,74 @@
 import "./footer.scss";
 
+interface badge {
+  nameLeft: string;
+  nameRight: string;
+  href: string;
+  logo: string;
+  colorRight: string;
+}
+
 const Footer = () => {
+  const badges: badge[] = [
+    {
+      nameLeft: "前端框架",
+      nameRight: "React v18.3.1",
+      href: "https://react.dev/",
+      logo: "typescript",
+      colorRight: "rgb(88 196 220)",
+    },
+    {
+      nameLeft: "后端框架",
+      nameRight: "Gin v1.10.1",
+      href: "https://gin-gonic.com/zh-cn/",
+      logo: "go",
+      colorRight: "rgb(88 196 220)",
+    },
+    {
+      nameLeft: "构建工具",
+      nameRight: "Vite v5.2.11",
+      href: "https://cn.vitejs.dev/",
+      logo: "vite",
+      colorRight: "blue",
+    },
+    {
+      nameLeft: "托管于",
+      nameRight: "华为云",
+      href: "https://www.huaweicloud.com/",
+      logo: "huawei",
+      colorRight: "red",
+    },
+    {
+      nameLeft: "对象存储",
+      nameRight: "七牛云",
+      href: "https://marketing.qiniu.com/",
+      logo: "minio",
+      colorRight: "blue",
+    },
+    {
+      nameLeft: "",
+      nameRight: "Github开源地址",
+      href: "https://github.com/atopos31/grb-front",
+      logo: "github",
+      colorRight: "black",
+    },
+  ];
+
   return (
     <div className="footer">
       <p className="content">@2022-2024 All Rights Reserved</p>
       <div
         className="badge"
-        style={{
-          padding: 10,
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 5,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
       >
-        <a href="https://react.dev/">
-          <img
-            alt="Static Badge"
-            src="https://img.shields.io/badge/前端框架-React v18.3.1-rgb(88 196 220)?logo=typescript"
-          />
-        </a>
-
-        <a href="https://gin-gonic.com/zh-cn/">
-          <img
-            alt="Static Badge"
-            src="https://img.shields.io/badge/后端框架-Gin v1.10.1-rgb(88 196 220)?logo=go"
-          />
-        </a>
-        <a href="https://cn.vitejs.dev/">
-          <img
-            alt="Static Badge"
-            src="https://img.shields.io/badge/构建工具-Vite v5.2.11 -blue?logo=vite"
-          />
-        </a>
-        <a href="https://activity.huaweicloud.com/">
-          <img
-            alt="Static Badge"
-            src="https://img.shields.io/badge/托管于-华为云-red?logo=huawei"
-          />
-        </a>
-        <a href="https://marketing.qiniu.com/">
-          <img
-            alt="Static Badge"
-            src="https://img.shields.io/badge/对象存储-七牛云-blue?logo=minio"
-          />
-        </a>
-
-        <a href="https://github.com/atopos31/grb-front">
-          <img
-            alt="Static Badge"
-            src="https://img.shields.io/badge/Github开源地址-black?logo=github"
-          />
-        </a>
+        {/* 了解更多，访问https://shields.io */}
+        {badges.map((badge) => (
+          <a href={badge.href}>
+            <img
+              alt="Static Badge"
+              src={`https://img.shields.io/badge/${badge.nameLeft}-${badge.nameRight}-${badge.colorRight}?logo=${badge.logo}`}
+            />
+          </a>
+        ))}
       </div>
     </div>
   );

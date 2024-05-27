@@ -5,7 +5,9 @@ import { IconChevronDown } from "@douyinfe/semi-icons";
 import SocialButton from "../../components/buttons/socialButton";
 import { Card, Descriptions, Space, Tag } from "@douyinfe/semi-ui";
 import { TagColor } from "@douyinfe/semi-ui/lib/es/tag";
-
+import HomeCard from "../../components/homeCard/homecard";
+import { title } from "process";
+// 文章信息
 const cardConfigs = [
   {
     title: "测试",
@@ -29,7 +31,7 @@ const cardConfigs = [
       "前言 大概在今年8月，我萌生了一个开发一个课表程序的想法，因为市面上的各种课表软件之类的，没办法做到和教务处数据实时同步，导入也是十分麻烦，尤其是查成绩，绩点之类的非常麻烦。所以，我的想法是做一个小程序或者APP，主要是具有一定的实用性，我觉得还是挺不错的。 竞赛 我用这个想法做了一套后端服务，主要是使用Go的开源http库resty和爬虫库col…",
   },
 ];
-
+// 社交相关信息
 const socialConfigs = [
   {
     name: "QQ",
@@ -48,12 +50,12 @@ const socialConfigs = [
     url: "mailto:hackerxiao@foxmail.com",
   },
 ];
-
+// 用户信息
 const userInfo = {
   name: "Hackerxiao",
   avatar: "https://www.hackerxiao.online/wp-content/uploads/2023/09/head.jpg",
 };
-
+// 站点信息
 const sitedata = [
   {
     key: "总访客",
@@ -68,11 +70,55 @@ const sitedata = [
     value: "辽ICP备2022010174号",
   },
 ];
+// 分类信息
+const cates = [
+  {
+    name: "技术",
+    id: 1,
+  },
+  {
+    name: "生活",
+    id: 2,
+  },
+];
+
+// 标签信息
+const tags = [
+  {
+    name: "Java",
+    id: 1,
+  },
+  {
+    name: "JavaScript",
+    id: 2,
+  },
+  {
+    name: "Python",
+    id: 3,
+  },
+  {
+    name: "C++",
+    id: 4,
+  },
+  {
+    name: "C#",
+    id: 5,
+  },
+];
+
+const props = {
+  title: "Your Title",
+  values: [
+    { name: "Tag 1", id: 1 },
+    { name: "Tag 2", id: 2 },
+    // 更多标签...
+  ],
+};
 
 const ContentHome = () => {
   const backgroundColor = "rgba(var(--semi-grey-5), .1) ";
   const biggerThan768 = useMediaPredicate("(min-width: 768px)");
-  //跳转到文章部分
+  //主页按钮点击跳转到文章部分
   const handleScrollDown = () => {
     window.scrollTo({
       top: window.innerHeight - 60,
@@ -136,72 +182,10 @@ const ContentHome = () => {
         </div>
         <div className="infos">
           <div className="cate-card">
-            <Card title="标签" style={{ backgroundColor: backgroundColor }}>
-              <Space wrap>
-                {[
-                  "amber",
-                  "blue",
-                  "cyan",
-                  "green",
-                  "grey",
-                  "indigo",
-                  "light-blue",
-                  "light-green",
-                  "lime",
-                  "orange",
-                  "pink",
-                  "purple",
-                  "red",
-                  "teal",
-                  "violet",
-                  "yellow",
-                  "white",
-                ].map((item) => (
-                  <Tag color={item as TagColor} key={item}>
-                    {" "}
-                    {item}{" "}
-                  </Tag>
-                ))}
-              </Space>
-            </Card>
+            <HomeCard title="分类" values={cates}/>
           </div>
           <div className="cate-card" style={{ top: "85px" }}>
-            <Card title="分类" style={{ backgroundColor: backgroundColor }}>
-              <Space wrap>
-                {[
-                  "测试",
-                  "技术",
-                  "cyan",
-                  "green",
-                  "grey",
-                  "indigo",
-                  "light-blue",
-                  "light-green",
-                  "lime",
-                  "orange",
-                  "pink",
-                  "purple",
-                  "red",
-                  "teal",
-                  "violet",
-                  "yellow",
-                  "white",
-                ].map((item,index) => (
-                  <Tag
-                  color='light-blue'
-                    className="info-tag"
-                    size="large"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      console.log(item);
-                    }}
-                    key={index}
-                  >
-                    {item}
-                  </Tag>
-                ))}
-              </Space>
-            </Card>
+            <HomeCard title="标签" values={tags}/>
           </div>
           <div className="site">
             <Card title="站点信息" style={{ backgroundColor: backgroundColor }}>

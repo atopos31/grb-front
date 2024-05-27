@@ -20,21 +20,21 @@ const markdownUpImg = async (files: Array<File>, callBack: UploadImgCallBack) =>
     const OssConfig = await GetOssConfig()
     files.map(async (file) => {
         // 立即弹出上传中 提高用户体验
-        Toast.info({ content: file.name + "上传中:" + "0%", duration: 0, id: file.name })
+        Toast.info({ content: `${file.name}上传中:0%`,duration: 0, id: file.name })
         await ossQiNiuUpLoad(OssConfig,
             file,
             (next: any) => {
                 // 上传进度展示
                 const loded = Math.floor(next.total.percent)
-                Toast.info({ content: file.name + "上传中:" + loded + "%", duration: 0, id: file.name })
+                Toast.info({ content: `${file.name}上传中:${loded}%`,duration: 0, id: file.name })
             },
             (error: QiniuError) => {
                 // 上传失败也添加一个url 避免全部上传完毕的时候条件判断失败
-                urls.push({ url: "", alt: "上传失败:" + error.message, title: "" })
-                Toast.error({ content: file.name + "上传失败:" + error.message, duration: 2, id: file.name })
+                urls.push({ url: "", alt: `上传失败:${error.message}`, title: "" })
+                Toast.error({ content: `${file.name}上传失败:${error.message}`,duration: 2, id: file.name })
             },
             (complete: any) => {
-                urls.push({ url: OssConfig.domain + "/" + complete.key + OssConfig.imgprocess, alt: "", title: "" })
+                urls.push({url: `${OssConfig.domain}/${complete.key}${OssConfig.imgprocess}`,alt: "",title: ""})
                 Toast.close(file.name)
                 // 全部上传完毕 反馈到markdown上
                 if (urls.length === files.length) {
@@ -69,7 +69,7 @@ const mockRequest = async (pops: customRequestArgs) => {
         },
         (complete: any) => {
             // 返回封面地址
-            onSuccess(OssConfig.domain + "/" + complete.key + OssConfig.imgprocess);
+            onSuccess(`${OssConfig.domain}/${complete.key}${OssConfig.imgprocess}`)
         }
     );
 };
@@ -80,13 +80,14 @@ const ossQiNiuUpLoad = async (ossConfig: OssConfig, file: File, next: any, error
     // 获取文件扩展名
     const extension = file.name.split('.').pop();
     // 设置文件上传名
-    const upname = ossConfig.keyprefix + fileMD5 + '.' + extension
+    const upPathWithName = `${ossConfig.keyprefix}${fileMD5}.${extension}`
     // 设置上传配置
     const upconfig = {
+        // TODO: 配置上传区域 待完善
         region: ossConfig.region as typeof region[keyof typeof region],
     }
     // 开始上传
-    const observable = qiniu.upload(file, upname, ossConfig.upToken, undefined, upconfig)
+    const observable = qiniu.upload(file, upPathWithName, ossConfig.upToken, undefined, upconfig)
     // 订阅上传进度
     const subscription = observable.subscribe(next, error, complete);
     return subscription
