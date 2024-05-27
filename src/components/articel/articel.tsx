@@ -1,12 +1,18 @@
-import { IconBookmark, IconEyeOpened, IconFile, IconHistory, IconHourglass, IconPriceTag } from "@douyinfe/semi-icons";
+import {
+  IconBookmark,
+  IconEyeOpened,
+  IconFile,
+  IconHistory,
+  IconHourglass,
+  IconPriceTag,
+} from "@douyinfe/semi-icons";
 import "./cover.css";
-import { useMediaPredicate } from "react-media-hook";
 import { Card } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
 
 interface Articel {
   title: string;
-  img: string;
+  img: string | undefined;
   createTime: string;
   content: string;
 }
@@ -17,39 +23,45 @@ interface CoverProps {
 
 interface CoverWithProps {
   title: string;
-  img: string;
+  img: string | undefined;
   createTime: string;
 }
 
 const backgroundColor = "rgba(var(--semi-grey-5), .1) ";
 
 const Articel = ({ title, createTime, img, content }: Articel) => {
-  //移动端适配
-  const biggerThan768 = useMediaPredicate("(min-width: 768px)");
   return (
     <Card
       cover={<Cover title={title} createTime={createTime} img={img} />}
       bordered={false}
       style={{
         backgroundColor: backgroundColor,
-        width:"100%"
+        width: "100%",
       }}
     >
       <div className="font" style={{ fontSize: "1rem" }}>
         {content}
       </div>
-      <div className="tags" style={{display: "flex",padding: "30px 0 0 0",gap: "10px"}}><IconPriceTag />
-        <div className="tag" style={{}}>蓝桥杯</div>
+      <div
+        className="tags"
+        style={{ display: "flex", padding: "30px 0 0 0", gap: "10px" }}
+      >
+        <IconPriceTag />
+        <div className="tag" style={{}}>
+          蓝桥杯
+        </div>
       </div>
     </Card>
   );
 };
 
 const Cover = ({ title, createTime, img }: CoverWithProps) => {
-  if (img == "") {
+  if (img == undefined || img == "") {
     return <CoverNoWith title={title} createTime={createTime} />;
   } else {
-    return <CoverWith title={title} img={img} createTime={createTime} />;
+    return (
+      <CoverWith title={title} img={img as string} createTime={createTime} />
+    );
   }
 };
 
@@ -72,26 +84,29 @@ export const CoverNoWith = ({ title, createTime }: CoverProps) => {
         </a>
         |
         <a className="cover-info">
-          <IconHistory/>
+          <IconHistory />
           {createTime}
-        </a>|
+        </a>
+        |
         <a className="cover-info">
-        <IconBookmark />
+          <IconBookmark />
           比赛
-        </a>|
+        </a>
+        |
         <a className="cover-info">
-        <IconEyeOpened />
+          <IconEyeOpened />
           123
-        </a>|
+        </a>
+        |
         <a className="cover-info">
-        <IconFile />
+          <IconFile />
           32131字
-        </a>|
+        </a>
+        |
         <a className="cover-info">
-        <IconHourglass />
+          <IconHourglass />
           23分钟
         </a>
-        
       </div>
     </div>
   );
@@ -103,34 +118,37 @@ const CoverWith = ({ title, img, createTime }: CoverWithProps) => {
       <img className="coverwith-cover" alt="example" src={img} />
       <div className="coverwith-content">
         <p className="coverwith-title">{title}</p>
-        <div className="cover-infos" style={{color: "#ffffff"}}>
-        <a className="cover-info">
-          <IconHistory />
-          {createTime}
-        </a>
-        |
-        <a className="cover-info">
-          <IconHistory />
-          {createTime}
-        </a>|
-        <a className="cover-info">
-        <IconBookmark />
-          比赛
-        </a>|
-        <a className="cover-info">
-        <IconEyeOpened />
-          123
-        </a>|
-        <a className="cover-info">
-        <IconFile />
-          32131字
-        </a>|
-        <a className="cover-info">
-        <IconHourglass />
-          23分钟
-        </a>
-        
-      </div>
+        <div className="cover-infos" style={{ color: "#ffffff" }}>
+          <a className="cover-info">
+            <IconHistory />
+            {createTime}
+          </a>
+          |
+          <a className="cover-info">
+            <IconHistory />
+            {createTime}
+          </a>
+          |
+          <a className="cover-info">
+            <IconBookmark />
+            比赛
+          </a>
+          |
+          <a className="cover-info">
+            <IconEyeOpened />
+            123
+          </a>
+          |
+          <a className="cover-info">
+            <IconFile />
+            32131字
+          </a>
+          |
+          <a className="cover-info">
+            <IconHourglass />
+            23分钟
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 .articleview {
   padding-top: 100px;
   width: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center; /*由于flex-direction: column，因此align-items代表的是水平方向*/
@@ -9,13 +10,15 @@
 
 
 
-.content {
+.article-content {
+
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
 .article {
+  max-width: 1280px;
   display: flex;
   align-items: center;
   padding: 20px;

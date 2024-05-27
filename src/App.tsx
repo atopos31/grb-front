@@ -23,7 +23,7 @@ export function App() {
   //全局黑暗 白天模式切换
   const [isDark, setDark] = useState(defultTheme);
 
-  //当isdark发生变化时改变背景颜色
+  //当isdark发生变化时全局改变背景颜色
   useEffect(() => {
     if (isDark) {
       document.body.setAttribute("theme-mode", "dark");
@@ -40,7 +40,7 @@ export function App() {
         <Head setDark={setDark} isDark={isDark} />
         {/* 子路由切换 */}
         <Outlet />
-        {/* 底部栏 */}
+        {/* 底部栏 TODO 由后端传入底部栏信息 */}
         <Footer />
       </>
     </ThemeContext.Provider>

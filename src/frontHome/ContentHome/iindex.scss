@@ -1,3 +1,10 @@
+.home-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .home {
   position: relative;
   width: 100%;
@@ -7,6 +14,13 @@
   align-items: center;
   animation-duration: 1.5s; 
   animation-name: fadein; 
+}
+
+.home-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  max-width: 1280px;
 }
 
 @keyframes fadein {
@@ -112,6 +126,7 @@
   }
 }
 
-.info-tag:hover {
-  text-decoration: underline;
+.site-info {
+  background-color: rgba(var(--semi-grey-5), .1);
 }
+

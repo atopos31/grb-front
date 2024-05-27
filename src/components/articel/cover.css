@@ -1,7 +1,6 @@
 .cover {
   position: relative;
   width: 100%;
-  height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,12 +16,13 @@
   font-size: 1.5rem;
   line-height: 2rem;
   letter-spacing: 0.5px;
-  transition: all 0.35s ease;
   margin: 20px;
+  transition: all 0.35s ease;
 }
 
 .cover-title:hover {
   letter-spacing: 1px;
+  color: rgba(var(--semi-blue-7), 0.8);
 }
 
 .cover-creatime {

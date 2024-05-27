@@ -37,10 +37,4 @@ http.interceptors.response.use(
   }
 )
 
-export interface ApiResponseType {
-  code: number;
-  message: string;
-  data: any;
-}
-
 export default http

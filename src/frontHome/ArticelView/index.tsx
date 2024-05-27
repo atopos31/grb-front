@@ -62,7 +62,7 @@ console.log("hello world");
         style={biggerThan768 ? { width: "80%" } : { width: "90%" }}
       >
         <div
-          className="content"
+          className="article-content"
           style={biggerThan768 ? { width: "80%" } : { width: "100%" }}
         >
           <MarkDown textContent={content} darkMode={isDark}></MarkDown>
