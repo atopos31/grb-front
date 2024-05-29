@@ -1,7 +1,6 @@
 import { IconMenu, IconSearch } from "@douyinfe/semi-icons";
 import { Button, Nav, SideSheet } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useMediaPredicate } from "react-media-hook";
 import useIsAtTop from "./until";
 import Switch from "../../components/buttons/Switch";
@@ -9,20 +8,21 @@ import "./header.css"
 interface HeadProps {
   setDark: (value: ((prevState: boolean) => boolean) | boolean) => void;
   isDark: boolean;
+  setVisible: (value: ((prevState: boolean) => boolean) | boolean) => void;
+  visible: boolean;
 }
 
-const Head = ({ setDark, isDark }: HeadProps) => {
+const Head = ({ setDark, isDark,setVisible }: HeadProps) => {
   //路由跳转
   const navigate = useNavigate();
   //移动端适配
   const biggerThan768 = useMediaPredicate("(min-width: 768px)");
-  //侧边栏是否显示
-  const [visible, setVisible] = useState(false);
+
   //滚动栏是否处于顶部
   const isAtTop = useIsAtTop();
-  //开启/关闭状态栏
-  const change = () => {
-    setVisible(!visible);
+  //开启状态栏
+  const onSide = () => {
+    setVisible(true);
   };
   //主题切换
   const switchMode = () => {
@@ -63,7 +63,7 @@ const Head = ({ setDark, isDark }: HeadProps) => {
             >
               {biggerThan768 ? undefined : (
                 <Button
-                  onClick={change}
+                  onClick={onSide}
                   type="tertiary"
                   style={{ background: "transparent" }}
                   icon={<IconMenu />}
@@ -92,17 +92,7 @@ const Head = ({ setDark, isDark }: HeadProps) => {
           }
         />
       </div>
-      {/* 侧边栏 */}
-      <SideSheet
-        title="星空未来的个人博客"
-        visible={visible}
-        onCancel={change}
-        placement="left"
-        width={270}
-      >
-        <p>分类</p>
-        <p>关于</p>
-      </SideSheet>
+
     </div>
   );
 };

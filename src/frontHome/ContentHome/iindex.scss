@@ -126,7 +126,11 @@
   }
 }
 
-.site-info {
-  background-color: rgba(var(--semi-grey-5), .1);
+.side-item {
+  height: 100px;
+  p {
+    font-size: 20px;
+    line-height: 2rem;
+  }
 }
 

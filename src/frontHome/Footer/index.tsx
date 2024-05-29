@@ -61,8 +61,8 @@ const Footer = () => {
         className="badge"
       >
         {/* 了解更多，访问https://shields.io */}
-        {badges.map((badge) => (
-          <a href={badge.href}>
+        {badges.map((badge,index) => (
+          <a href={badge.href} key={index}>
             <img
               alt="Static Badge"
               src={`https://img.shields.io/badge/${badge.nameLeft}-${badge.nameRight}-${badge.colorRight}?logo=${badge.logo}`}

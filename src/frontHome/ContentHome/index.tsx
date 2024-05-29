@@ -3,8 +3,11 @@ import { useMediaPredicate } from "react-media-hook";
 import { Articel } from "../../components/articel/articel";
 import { IconChevronDown } from "@douyinfe/semi-icons";
 import SocialButton from "../../components/buttons/socialButton";
-import { Card, Descriptions } from "@douyinfe/semi-ui";
+import { SideSheet } from "@douyinfe/semi-ui";
 import HomeCard from "../../components/homeCard/homecard";
+import { useOutletContext } from "react-router-dom";
+import { SideContextType } from "../../types";
+import InfoCard from "../../components/infoCard/infoCard";
 // 文章信息
 const cardConfigs = [
   {
@@ -56,7 +59,11 @@ const userInfo = {
 // 站点信息
 const sitedata = [
   {
-    key: "总访客",
+    key: "文章数",
+    value: 100
+  },
+  {
+    key: "访问量",
     value: 1000,
   },
   {
@@ -66,7 +73,7 @@ const sitedata = [
   {
     key: "备案号",
     value: "辽ICP备2022010174号",
-  },
+  }
 ];
 // 分类信息
 const cates = [
@@ -104,10 +111,12 @@ const tags = [
   },
 ];
 
-
-
 const ContentHome = () => {
   const biggerThan768 = useMediaPredicate("(min-width: 768px)");
+  const { setVisible, visible } = useOutletContext<SideContextType>();
+  const offSide = () => {
+    setVisible(false);
+  };
   //主页按钮点击跳转到文章部分
   const handleScrollDown = () => {
     window.scrollTo({
@@ -165,18 +174,34 @@ const ContentHome = () => {
         </div>
         <div className="infos">
           <div className="cate-card">
-            <HomeCard title="分类" values={cates} />
+            <HomeCard title="分类" color="violet" values={cates} />
           </div>
           <div className="cate-card">
-            <HomeCard title="标签" values={tags} />
+            <HomeCard title="标签" color="blue" values={tags} />
           </div>
           <div className="site">
-            <Card title="站点信息" className="site-info" >
-              <Descriptions data={sitedata} />
-            </Card>
+            <InfoCard title="站点信息" data={sitedata} />
           </div>
         </div>
       </div>
+      {/* 侧边栏 */}
+      <SideSheet
+        title="星空未来的个人博客"
+        visible={visible}
+        onCancel={offSide}
+        placement="left"
+        width={270}
+      >
+        <div className="side-item">
+          <p>留言板</p>
+          <p>关于</p>
+        </div>
+        <HomeCard title="分类" color="violet" values={cates} />
+        <br></br>
+        <HomeCard title="标签" color="blue" values={tags} />
+        <br></br>
+        <InfoCard title="站点信息" data={sitedata} />
+      </SideSheet>
     </div>
   );
 };
