@@ -1,11 +1,12 @@
 import { Card, Space, Tag } from "@douyinfe/semi-ui";
 import "./homecard.scss";
 import { TagColor } from "@douyinfe/semi-ui/lib/es/tag";
+import { ReqTag } from "../../request/req_tag";
 
 type cardinfo = {
   title: string;
   color: TagColor | undefined;
-  values: { name: string; id: number }[];
+  values: ReqTag[];
 }
 
 const HomeCard = (props:cardinfo) => {

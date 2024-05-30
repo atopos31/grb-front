@@ -8,6 +8,10 @@ import HomeCard from "../../components/homeCard/homecard";
 import { useOutletContext } from "react-router-dom";
 import { SideContextType } from "../../types";
 import InfoCard from "../../components/infoCard/infoCard";
+import { useEffect, useState } from "react";
+import { ReqTag, getTagList } from "../../request/req_tag";
+import { ReqCate, getCateList } from "../../request/req_cate";
+
 // 文章信息
 const cardConfigs = [
   {
@@ -124,6 +128,23 @@ const ContentHome = () => {
       behavior: "smooth",
     });
   };
+
+  const [tags,settags] = useState<ReqTag[]>([]);
+  const [cates,setcates] = useState<ReqCate[]>([]);
+
+  useEffect(() => {
+    const getTags = async () => {
+      const res = await getTagList()
+      settags(res.data as ReqTag[])
+    };
+    const getCates = async () => {
+      const res = await getCateList()
+      setcates(res.data as ReqCate[])
+    };
+    getCates();
+    getTags();
+  }, []);
+
   return (
     <div className="home-main">
       {/*介绍和头像 */}

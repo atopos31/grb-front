@@ -22,6 +22,7 @@
     "axios": "^1.7.0",
     "browser-md5-file": "^1.1.1",
     "crypto": "^1.0.1",
+    "crypto-js": "^4.2.0",
     "highlight.js": "^11.9.0",
     "marked-shiki": "^1.1.0",
     "md-editor-rt": "^4.14.1",

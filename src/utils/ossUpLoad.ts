@@ -2,9 +2,9 @@ import { customRequestArgs } from "@douyinfe/semi-ui/lib/es/upload";
 import { GetOssConfig, OssConfig } from "./oss";
 import * as qiniu from "qiniu-js";
 import { QiniuError, QiniuRequestError, region } from "qiniu-js";
-import SparkMD5 from 'spark-md5';
 import { UploadImgCallBack } from "md-editor-rt";
 import { Toast } from "@douyinfe/semi-ui";
+import { getMd5 } from "./md5";
 
 /**
  * markdown 上传图片
@@ -76,7 +76,8 @@ const mockRequest = async (pops: customRequestArgs) => {
 
 const ossQiNiuUpLoad = async (ossConfig: OssConfig, file: File, next: any, error: any, complete: any) => {
     // 使用文件名生成MD5
-    const fileMD5 = await SparkMD5.hashBinary(file.name)
+    const fileMD5 = await getMd5(file)
+    // const fileMD5 = await SparkMD5.hashBinary(file.name + "vblog")
     // 获取文件扩展名
     const extension = file.name.split('.').pop();
     // 设置文件上传名

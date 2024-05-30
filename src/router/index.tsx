@@ -38,6 +38,10 @@ const router = createBrowserRouter([
                 element: <ConsoleHome/>
             },
             {
+                path: "editor/:euuid",
+                element: <ArticleEditor/>
+            },
+            {
                 path: "editor",
                 element: <ArticleEditor/>
             }

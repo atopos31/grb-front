@@ -1,6 +1,6 @@
 import { MdEditor } from "md-editor-rt";
 import "md-editor-rt/lib/style.css";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "../../App";
 import {
   Button,
@@ -14,7 +14,16 @@ import {
 } from "@douyinfe/semi-ui";
 import "./editor.css";
 import { markdownUpImg, mockRequest } from "../../utils/ossUpLoad";
-import { createArticle } from "../../request/req_article";
+import {
+  ArticleData,
+  createArticle,
+  getArticle,
+  updateArticle,
+} from "../../request/req_article";
+import { ReqCate, getCateList } from "../../request/req_cate";
+import { useParams } from "react-router-dom";
+import { formatDate } from "../../utils/time";
+import { FileItem } from "@douyinfe/semi-ui/lib/es/upload";
 
 const ArticleEditor = () => {
   const isDark = useContext(ThemeContext);
@@ -27,20 +36,64 @@ const ArticleEditor = () => {
   const [top, setop] = useState<boolean>(false); //置顶
   const [time, setTime] = useState<Date>();
   const [uuid, setUuid] = useState<number>();
+  const [status, setStatus] = useState<number>(1);
+  const [defalutImg, setDefalutImg] = useState<FileItem[]>([]);
 
-  // TODO 获取分类列表
-  const list = [
-    { value: 1, label: "日常", otherKey: 0 },
-    { value: 2, label: "技术", otherKey: 1 },
-    { value: 3, label: "今日头条", otherKey: 2 },
-  ];
-  // TODO 发布文章
-  const Submmit = async () => {
-    if (uuid) return;
+  const [cates, setcates] = useState<{ value: number; label: string }[]>([]);
+  useEffect(() => {
+    const getCates = async () => {
+      const res = await getCateList();
+      const tcates: { value: number; label: string }[] = [];
+      res.data.map((item: ReqCate) => {
+        tcates.push({ value: item.id, label: item.name });
+      });
+      console.log(tcates);
+      setcates(tcates);
+    };
+    getCates();
+  }, []);
 
-    console.log(title, text, tags, cate, top, coverImg, time?.getTime());
-    console.log(time?.getTime().toString() ?? "0");
-    const res: any = await createArticle({
+  const { euuid } = useParams();
+  useEffect(() => {
+    if (euuid == undefined) return;
+    console.log(euuid);
+    const initArticle = async () => {
+      const res = await getArticle(euuid);
+      const Article = res.data;
+      setcate(Article.category_id);
+      setTitle(Article.title);
+      Article.tags.map((item: any) => {
+        tags.push(item.name);
+      });
+      setags(tags);
+      setop(Article.top == 1);
+      setText(Article.content);
+      setCoverImg(Article.cover_image);
+      if (Article.cover_image != "") {
+        setDefalutImg([
+          {
+            uid: "1",
+            url: Article.cover_image,
+            name: "image-1.jpg",
+            status: "success",
+            size: "130KB",
+            preview: true,
+          },
+        ]);
+      }
+      setTime(formatDate(Article.created_at));
+      setUuid(Article.uuid);
+      setStatus(Article.status);
+      console.log(Article);
+    };
+    initArticle();
+  }, []);
+
+  // TODO 发布/更新/存草稿文章
+  const Submmit = async (tmpstatus: number) => {
+    // console.log(title, text, tags, cate, top, coverImg, time?.getTime());
+    // console.log(time?.getTime().toString() ?? "0");
+    const Article: ArticleData = {
       title: title,
       content: text,
       tags: tags,
@@ -48,15 +101,22 @@ const ArticleEditor = () => {
       top: top ? 1 : 0,
       cover_image: coverImg,
       created_at: time?.getTime().toString() ?? "",
-      status: 1,
-    });
+      status: tmpstatus,
+    };
+    const res: any = await (uuid
+      ? updateArticle(Article, uuid)
+      : createArticle(Article));
     console.log(res);
+    if (res.code == 400) {
+      Toast.error("参数不全");
+      return;
+    }
     if (res.code == 200) {
-      Toast.success("发布成功");
-      setUuid(Number(res.data));
+      Toast.success((uuid && status) || !tmpstatus ? "更新成功" : "发布成功");
+      uuid ?? setUuid(Number(res.data.uuid));
+      setStatus(res.data.status);
     }
   };
-  // TODO 更新文章
 
   // 通过点击最多使用的标签来添加标签
   const tagAdd = (e: any) => {
@@ -88,7 +148,13 @@ const ArticleEditor = () => {
   return (
     <div
       className="articleeditor"
-      style={{overflowY: "scroll",scrollBehavior: "smooth", width: "100%", padding: "20px", overscrollBehavior: "contain" }}
+      style={{
+        overflowY: "scroll",
+        scrollBehavior: "smooth",
+        width: "100%",
+        padding: "20px",
+        overscrollBehavior: "contain",
+      }}
     >
       {/* 选项输入 */}
       <div className="input" style={{ display: "flex", gap: "20px" }}>
@@ -107,7 +173,7 @@ const ArticleEditor = () => {
             onChange={onChangeCate}
             value={cate}
             style={{ width: "100%" }}
-            optionList={list}
+            optionList={cates}
           ></Select>
           <br />
           <br />
@@ -143,6 +209,7 @@ const ArticleEditor = () => {
             >
               <a style={{ fontSize: "14px", color: "#999" }}>是否置顶:</a>
               <Switch
+                defaultChecked={top}
                 onChange={(v) => setop(v)}
                 aria-label="a switch for demo"
               ></Switch>
@@ -156,8 +223,15 @@ const ArticleEditor = () => {
             limit={1}
             picHeight={145}
             picWidth={360}
-            // 在这里接收并设置返回的封面图片地址
+            fileList={defalutImg}
+            onChange={(fileLIst) => {
+              setDefalutImg(fileLIst.fileList);
+            }}
             onSuccess={(imgurl) => setCoverImg(imgurl)}
+            onRemove={() => {
+              setDefalutImg([]);
+              setCoverImg("");
+            }}
             customRequest={mockRequest}
             listType="picture"
           >
@@ -179,14 +253,19 @@ const ArticleEditor = () => {
             theme="solid"
             type="primary"
             style={{ height: "30%", fontSize: "20px" }}
-            onClick={Submmit}
+            onClick={() => {
+              Submmit(1);
+            }}
           >
-            {uuid ? "更新文章" : "发布文章"}
+            {uuid && status == 1 ? "更新文章" : "发布文章"}
           </Button>
           <Button
             theme="light"
             type="primary"
             style={{ height: "30%", fontSize: "20px" }}
+            onClick={() => {
+              Submmit(0);
+            }}
           >
             存为草稿
           </Button>

@@ -2,7 +2,7 @@ import { GetUpToken } from "../request/req_oss";
 
 export interface OssConfig {
     domain: string;
-    bucket: string; 
+    bucket: string;
     region: string; // 地域 such z1
     keyprefix: string; // 图片前缀 such vblog980/
     imgprocess: string; // 图片处理 such ?imageView2/0/format/webp/
