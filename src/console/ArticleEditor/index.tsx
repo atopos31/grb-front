@@ -38,7 +38,7 @@ const ArticleEditor = () => {
   const [uuid, setUuid] = useState<number>();
   const [status, setStatus] = useState<number>(1);
   const [defalutImg, setDefalutImg] = useState<FileItem[]>([]);
-
+  // 获取分类
   const [cates, setcates] = useState<{ value: number; label: string }[]>([]);
   useEffect(() => {
     const getCates = async () => {
@@ -53,6 +53,7 @@ const ArticleEditor = () => {
     getCates();
   }, []);
 
+  // 编辑文章 获取文章信息
   const { euuid } = useParams();
   useEffect(() => {
     if (euuid == undefined) return;
@@ -89,7 +90,7 @@ const ArticleEditor = () => {
     initArticle();
   }, []);
 
-  // TODO 发布/更新/存草稿文章
+  // 发布/更新/存草稿文章
   const Submmit = async (tmpstatus: number) => {
     // console.log(title, text, tags, cate, top, coverImg, time?.getTime());
     // console.log(time?.getTime().toString() ?? "0");
@@ -209,7 +210,7 @@ const ArticleEditor = () => {
             >
               <a style={{ fontSize: "14px", color: "#999" }}>是否置顶:</a>
               <Switch
-                defaultChecked={top}
+                checked={top}
                 onChange={(v) => setop(v)}
                 aria-label="a switch for demo"
               ></Switch>
