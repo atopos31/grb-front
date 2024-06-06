@@ -75,9 +75,8 @@ const mockRequest = async (pops: customRequestArgs) => {
 };
 
 const ossQiNiuUpLoad = async (ossConfig: OssConfig, file: File, next: any, error: any, complete: any) => {
-    // 使用文件名生成MD5
+    // 使用文件生成MD5
     const fileMD5 = await fileToMD5(file)
-    // const fileMD5 = await SparkMD5.hashBinary(file.name + "vblog")
     // 获取文件扩展名
     const extension = file.name.split('.').pop();
     // 设置文件上传名

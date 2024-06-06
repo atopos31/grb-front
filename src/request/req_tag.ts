@@ -8,3 +8,7 @@ export type ReqTag = {
 export const getTagList = () => {
     return http.get("/tag/list");
 }
+
+export const getHotTagList = (size:number) => {
+    return http.get(`/tag/hotlist/${size}`);
+}

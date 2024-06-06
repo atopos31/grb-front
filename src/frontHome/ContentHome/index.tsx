@@ -79,42 +79,6 @@ const sitedata = [
     value: "辽ICP备2022010174号",
   }
 ];
-// 分类信息
-const cates = [
-  {
-    name: "技术",
-    id: 1,
-  },
-  {
-    name: "生活",
-    id: 2,
-  },
-];
-
-// 标签信息
-const tags = [
-  {
-    name: "Java",
-    id: 1,
-  },
-  {
-    name: "JavaScript",
-    id: 2,
-  },
-  {
-    name: "Python",
-    id: 3,
-  },
-  {
-    name: "C++",
-    id: 4,
-  },
-  {
-    name: "C#",
-    id: 5,
-  },
-];
-
 const ContentHome = () => {
   const biggerThan768 = useMediaPredicate("(min-width: 768px)");
   const { setVisible, visible } = useOutletContext<SideContextType>();

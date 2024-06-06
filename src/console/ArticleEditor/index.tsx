@@ -24,6 +24,7 @@ import { ReqCate, getCateList } from "../../request/req_cate";
 import { useParams } from "react-router-dom";
 import { formatDate } from "../../utils/time";
 import { FileItem } from "@douyinfe/semi-ui/lib/es/upload";
+import { ReqTag, getHotTagList } from "../../request/req_tag";
 
 const ArticleEditor = () => {
   const isDark = useContext(ThemeContext);
@@ -32,14 +33,14 @@ const ArticleEditor = () => {
   const [text, setText] = useState<string>("");
   const [coverImg, setCoverImg] = useState<string>("");
   const [tags, setags] = useState<string[]>([]); //标签
-  const [cate, setcate] = useState<number>(); //分类
+  const [cate, setcate] = useState<number>(); //当前选择的分类
   const [top, setop] = useState<boolean>(false); //置顶
   const [time, setTime] = useState<Date>();
   const [uuid, setUuid] = useState<number>();
   const [status, setStatus] = useState<number>(1);
   const [defalutImg, setDefalutImg] = useState<FileItem[]>([]);
   // 获取分类
-  const [cates, setcates] = useState<{ value: number; label: string }[]>([]);
+  const [cates, setcates] = useState<{ value: number; label: string }[]>([]); // 所有分类
   useEffect(() => {
     const getCates = async () => {
       const res = await getCateList();
@@ -51,6 +52,16 @@ const ArticleEditor = () => {
       setcates(tcates);
     };
     getCates();
+  }, []);
+
+  // 获取热门标签
+  const [hotTags, setHotTags] = useState<string[]>([]); // 热门标签
+  useEffect(() => {
+    const getHotTags = async () => {
+      const res = await getHotTagList(5);
+      setHotTags(res.data.map((tag: ReqTag) => tag.name));
+    };
+    getHotTags();
   }, []);
 
   // 编辑文章 获取文章信息
@@ -92,8 +103,6 @@ const ArticleEditor = () => {
 
   // 发布/更新/存草稿文章
   const Submmit = async (tmpstatus: number) => {
-    // console.log(title, text, tags, cate, top, coverImg, time?.getTime());
-    // console.log(time?.getTime().toString() ?? "0");
     const Article: ArticleData = {
       title: title,
       content: text,
@@ -121,7 +130,6 @@ const ArticleEditor = () => {
 
   // 通过点击最多使用的标签来添加标签
   const tagAdd = (e: any) => {
-    console.log(cate);
     let tag = (e.target as HTMLButtonElement).innerText;
     //标签去重
     if (tags.includes(tag)) return;
@@ -196,9 +204,12 @@ const ArticleEditor = () => {
             }}
           >
             <a style={{ fontSize: "14px", color: "#999" }}>最多使用:</a>
-            <Button type="primary" size="small" onClick={tagAdd}>
-              测试
-            </Button>
+            {hotTags.map((tag) => (
+              <Button type="primary" size="small" onClick={tagAdd}>
+                {tag}
+              </Button>
+            ))}
+
             <div
               className="seitch"
               style={{
