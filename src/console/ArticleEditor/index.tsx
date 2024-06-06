@@ -21,7 +21,7 @@ import {
   updateArticle,
 } from "../../request/req_article";
 import { ReqCate, getCateList } from "../../request/req_cate";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "../../utils/time";
 import { FileItem } from "@douyinfe/semi-ui/lib/es/upload";
 import { ReqTag, getHotTagList } from "../../request/req_tag";
@@ -102,6 +102,7 @@ const ArticleEditor = () => {
   }, []);
 
   // 发布/更新/存草稿文章
+  const navigate = useNavigate();
   const Submmit = async (tmpstatus: number) => {
     const Article: ArticleData = {
       title: title,
@@ -123,7 +124,10 @@ const ArticleEditor = () => {
     }
     if (res.code == 200) {
       Toast.success((uuid && status) || !tmpstatus ? "更新成功" : "发布成功");
+      // 第一次发布设置uuid
       uuid ?? setUuid(Number(res.data.uuid));
+      // 第一次发布后跳转
+      uuid ?? navigate(`/console/editor/${res.data.uuid}`);
       setStatus(res.data.status);
     }
   };
