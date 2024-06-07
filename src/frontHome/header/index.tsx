@@ -1,5 +1,5 @@
 import { IconMenu, IconSearch } from "@douyinfe/semi-icons";
-import { Button, Nav, SideSheet } from "@douyinfe/semi-ui";
+import { Button, Nav } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
 import { useMediaPredicate } from "react-media-hook";
 import useIsAtTop from "./until";
@@ -42,10 +42,7 @@ const Head = ({ setDark, isDark,setVisible }: HeadProps) => {
       >
         <Nav
           style={{
-            borderRadius: "20px",
-            padding: "10px",
-            //不在顶的时候 改变状态 透明 边框为空
-            background: isAtTop ? "transparent" : "",
+            backgroundColor: "rgba(var(--semi-grey-1), 0.85)",
             border: isAtTop ? "none" : "",
           }}
           mode={"horizontal"}

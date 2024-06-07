@@ -21,7 +21,7 @@ import {
   updateArticle,
 } from "../../request/req_article";
 import { ReqCate, getCateList } from "../../request/req_cate";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "../../utils/time";
 import { FileItem } from "@douyinfe/semi-ui/lib/es/upload";
 import { ReqTag, getHotTagList } from "../../request/req_tag";

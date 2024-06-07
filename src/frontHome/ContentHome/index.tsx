@@ -3,7 +3,7 @@ import { useMediaPredicate } from "react-media-hook";
 import { Articel } from "../../components/articel/articel";
 import { IconChevronDown } from "@douyinfe/semi-icons";
 import SocialButton from "../../components/buttons/socialButton";
-import { SideSheet } from "@douyinfe/semi-ui";
+import { Pagination, SideSheet } from "@douyinfe/semi-ui";
 import HomeCard from "../../components/homeCard/homecard";
 import { useOutletContext } from "react-router-dom";
 import { SideContextType } from "../../types";
@@ -22,7 +22,7 @@ const cardConfigs = [
       "前言 大概在今年8月，我萌生了一个开发一个课表程序的想法，因为市面上的各种课表软件之类的，没办法做到和教务处数据实时同步，导入也是十分麻烦，尤其是查成绩，绩点之类的非常麻烦。所以，我的想法是做一个小程序或者APP，主要是具有一定的实用性，我觉得还是挺不错的。 竞赛 我用这个想法做了一套后端服务，主要是使用Go的开源http库resty和爬虫库col…",
   },
   {
-    title: "测试",
+    title: "测试测试测试测试测试测试测试测试测试测试",
     img: "https://www.hackerxiao.online/wp-content/uploads/2024/04/屏幕截图-2024-04-29-202839.png",
     createTime: "2023-6-23",
     content:
@@ -156,6 +156,7 @@ const ContentHome = () => {
           {cardConfigs.map((cardConfig, index) => (
             <Articel key={index} {...cardConfig} />
           ))}
+          <Pagination total={30} style={{ marginBottom: 12 }}></Pagination>
         </div>
         <div className="infos">
           <div className="cate-card">
