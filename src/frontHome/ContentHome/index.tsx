@@ -11,74 +11,16 @@ import InfoCard from "../../components/infoCard/infoCard";
 import { useEffect, useState } from "react";
 import { ReqTag, getTagList } from "../../request/req_tag";
 import { ReqCate, getCateList } from "../../request/req_cate";
+import { getSiteBasicInfo, getSiteInfo } from "../../request/req_siteinfo";
+import { ArticleItem, getArticleList } from "../../request/req_article";
 
-// 文章信息
-const cardConfigs = [
-  {
-    title: "测试测试测试测试测试测试测试测试测试测试",
-    img: undefined,
-    createTime: "2023-6-23",
-    content:
-      "前言 大概在今年8月，我萌生了一个开发一个课表程序的想法，因为市面上的各种课表软件之类的，没办法做到和教务处数据实时同步，导入也是十分麻烦，尤其是查成绩，绩点之类的非常麻烦。所以，我的想法是做一个小程序或者APP，主要是具有一定的实用性，我觉得还是挺不错的。 竞赛 我用这个想法做了一套后端服务，主要是使用Go的开源http库resty和爬虫库col…",
-  },
-  {
-    title: "测试测试测试测试测试测试测试测试测试测试",
-    img: "https://www.hackerxiao.online/wp-content/uploads/2024/04/屏幕截图-2024-04-29-202839.png",
-    createTime: "2023-6-23",
-    content:
-      "前言 大概在今年8月，我萌生了一个开发一个课表程序的想法，因为市面上的各种课表软件之类的，没办法做到和教务处数据实时同步，导入也是十分麻烦，尤其是查成绩，绩点之类的非常麻烦。所以，我的想法是做一个小程序或者APP，主要是具有一定的实用性，我觉得还是挺不错的。 竞赛 我用这个想法做了一套后端服务，主要是使用Go的开源http库resty和爬虫库col…",
-  },
-  {
-    title: "测试",
-    img: "https://www.hackerxiao.online/wp-content/uploads/2024/04/屏幕截图-2024-04-29-202839.png",
-    createTime: "2023-6-23",
-    content:
-      "前言 大概在今年8月，我萌生了一个开发一个课表程序的想法，因为市面上的各种课表软件之类的，没办法做到和教务处数据实时同步，导入也是十分麻烦，尤其是查成绩，绩点之类的非常麻烦。所以，我的想法是做一个小程序或者APP，主要是具有一定的实用性，我觉得还是挺不错的。 竞赛 我用这个想法做了一套后端服务，主要是使用Go的开源http库resty和爬虫库col…",
-  },
-];
-// 社交相关信息
-const socialConfigs = [
-  {
-    name: "QQ",
-    url: "https://qm.qq.com/cgi-bin/qm/qr?k=VtBQ5sayA-LfE4Umu0Jc4ofcIi_9eaLv",
-  },
-  {
-    name: "Github",
-    url: "https://github.com/atopos31",
-  },
-  {
-    name: "Juejin",
-    url: "https://juejin.cn/user/1157118868073149",
-  },
-  {
-    name: "Email",
-    url: "mailto:hackerxiao@foxmail.com",
-  },
-];
-// 用户信息
-const userInfo = {
-  name: "Hackerxiao",
-  avatar: "https://www.hackerxiao.online/wp-content/uploads/2023/09/head.jpg",
+const SitekeyValueArray: {[key: string]: string} = {
+  "articlecount": "文章数",
+  "categorycount": "分类数",
+  "tagcount": "标签数",
+  "viewscount": "访问量",
+  "record": "备案号",
 };
-// 站点信息
-const sitedata = [
-  {
-    key: "文章数",
-    value: 100
-  },
-  {
-    key: "访问量",
-    value: 1000,
-  },
-  {
-    key: "浏览量",
-    value: 23,
-  },
-  {
-    key: "备案号",
-    value: "辽ICP备2022010174号",
-  }
-];
 const ContentHome = () => {
   const biggerThan768 = useMediaPredicate("(min-width: 768px)");
   const { setVisible, visible } = useOutletContext<SideContextType>();
@@ -93,21 +35,55 @@ const ContentHome = () => {
     });
   };
 
-  const [tags,settags] = useState<ReqTag[]>([]);
-  const [cates,setcates] = useState<ReqCate[]>([]);
-
+  const [tags, settags] = useState<ReqTag[]>([]);
+  const [cates, setcates] = useState<ReqCate[]>([]);
+  const [siteinfo, setsiteinfo] = useState<{ key: string; value: string }[]>([]);
+  const [userInfo,setUserInfo] = useState<{ name: string; avatar: string }>();
+  const [socialConfigs, setsocialConfigs] = useState<{name:string,url:string}[]>([]);
+  const [total,setTotal] = useState(0);
   useEffect(() => {
+    const getBasicInfo= async () => {
+      const res = await getSiteBasicInfo();
+      setUserInfo(res.data.user)
+      setsocialConfigs(res.data.social)
+    };
     const getTags = async () => {
-      const res = await getTagList()
-      settags(res.data as ReqTag[])
+      const res = await getTagList();
+      settags(res.data as ReqTag[]);
     };
     const getCates = async () => {
-      const res = await getCateList()
-      setcates(res.data as ReqCate[])
+      const res = await getCateList();
+      setcates(res.data as ReqCate[]);
     };
+    const getSite = async () => {
+      const res = await getSiteInfo();
+      setsiteinfo(
+        Object.entries(res.data).map(([key, value]) => ({
+          key: SitekeyValueArray[key],
+          value: value as string,
+        }))
+      );
+      setTotal(res.data.articlecount);
+    };
+    getBasicInfo();
     getCates();
     getTags();
+    getSite();
   }, []);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [articleList, setArticleList] = useState<ArticleItem[]>([]);
+  useEffect(() => {
+    console.log(currentPage);
+    console.log(pageSize);
+    const getArticles = async () => {
+      const res = await getArticleList(currentPage, pageSize);
+      let articleList : ArticleItem[] = res.data;
+      setArticleList(articleList);
+    };
+    getArticles();
+  }, [currentPage]);
 
   return (
     <div className="home-main">
@@ -133,7 +109,7 @@ const ContentHome = () => {
               欢迎呀! <span className="wave">👋</span>
             </h1>
             <h1>
-              我是<span style={{ color: "#7880d1" }}>{userInfo.name}</span>
+              我是<span style={{ color: "#7880d1" }}>{userInfo?.name}</span>
             </h1>
             <h3>一名Web开发者</h3>
             <div className="Social">
@@ -147,16 +123,17 @@ const ContentHome = () => {
             </div>
           </div>
         </div>
-        <img className="avatar" src={userInfo.avatar} />
+        <img className="avatar" src={userInfo?.avatar} />
         <IconChevronDown className="iconchevron" onClick={handleScrollDown} />
       </div>
       <div className="home-content">
         {/* 文章列表 */}
         <div className="articels">
-          {cardConfigs.map((cardConfig, index) => (
+          {articleList.map((cardConfig, index) => (
             <Articel key={index} {...cardConfig} />
           ))}
-          <Pagination total={30} style={{ marginBottom: 12 }}></Pagination>
+          {/* 翻页器 */}
+          <Pagination onChange={(currentPage: number, pageSize: number) => {setCurrentPage(currentPage); setPageSize(pageSize)}} total={total} pageSize={pageSize} style={{ marginBottom: 12 }}></Pagination>
         </div>
         <div className="infos">
           <div className="cate-card">
@@ -166,7 +143,7 @@ const ContentHome = () => {
             <HomeCard title="标签" color="blue" values={tags} />
           </div>
           <div className="site">
-            <InfoCard title="站点信息" data={sitedata} />
+            <InfoCard title="站点信息" data={siteinfo} />
           </div>
         </div>
       </div>
@@ -186,7 +163,7 @@ const ContentHome = () => {
         <br></br>
         <HomeCard title="标签" color="blue" values={tags} />
         <br></br>
-        <InfoCard title="站点信息" data={sitedata} />
+        <InfoCard title="站点信息" data={siteinfo} />
       </SideSheet>
     </div>
   );

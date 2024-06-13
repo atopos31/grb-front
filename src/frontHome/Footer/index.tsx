@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import "./footer.scss";
+import { getBadgesInfo } from "../../request/req_siteinfo";
 
 interface badge {
   nameLeft: string;
@@ -9,50 +11,14 @@ interface badge {
 }
 
 const Footer = () => {
-  const badges: badge[] = [
-    {
-      nameLeft: "前端框架",
-      nameRight: "React v18.3.1",
-      href: "https://react.dev/",
-      logo: "typescript",
-      colorRight: "rgb(88 196 220)",
-    },
-    {
-      nameLeft: "后端框架",
-      nameRight: "Gin v1.10.1",
-      href: "https://gin-gonic.com/zh-cn/",
-      logo: "go",
-      colorRight: "rgb(88 196 220)",
-    },
-    {
-      nameLeft: "构建工具",
-      nameRight: "Vite v5.2.11",
-      href: "https://cn.vitejs.dev/",
-      logo: "vite",
-      colorRight: "blue",
-    },
-    {
-      nameLeft: "托管于",
-      nameRight: "华为云",
-      href: "https://www.huaweicloud.com/",
-      logo: "huawei",
-      colorRight: "red",
-    },
-    {
-      nameLeft: "对象存储",
-      nameRight: "七牛云",
-      href: "https://marketing.qiniu.com/",
-      logo: "minio",
-      colorRight: "blue",
-    },
-    {
-      nameLeft: "",
-      nameRight: "Github开源地址",
-      href: "https://github.com/atopos31/grb-front",
-      logo: "github",
-      colorRight: "black",
-    },
-  ];
+  const [badges,setBadges] = useState<badge[]>([])
+  useEffect(()=>{
+    const getBadges = async () => {
+      const res = await getBadgesInfo()
+      setBadges(res.data)
+    }
+    getBadges()
+  },[])
 
   return (
     <div className="footer">
@@ -62,7 +28,7 @@ const Footer = () => {
       >
         {/* 了解更多，访问https://shields.io */}
         {badges.map((badge,index) => (
-          <a href={badge.href} key={index}>
+          <a target="_blank" href={badge.href} key={index}>
             <img
               alt="Static Badge"
               src={`https://img.shields.io/badge/${badge.nameLeft}-${badge.nameRight}-${badge.colorRight}?logo=${badge.logo}`}

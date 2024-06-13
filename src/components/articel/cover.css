@@ -54,7 +54,7 @@
 .coverwith-title {
   font-size: 1.5rem;
   font-weight: 500;
-  color: #ffff;
+  color: rgba(var(--semi-blue-7), 1);
   cursor: pointer;
   line-height: 2rem;
   letter-spacing: 0.5px;
@@ -63,6 +63,7 @@
 }
 
 .coverwith-title:hover {
+  color: rgba(var(--semi-blue-7), 0.8);
   letter-spacing: 1px;
 }
 

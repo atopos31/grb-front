@@ -9,6 +9,8 @@ import {
 import "./cover.css";
 import { Card } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
+import { ArticleItem } from "../../request/req_article";
+import { formatDateString } from "../../utils/time";
 
 interface Articel {
   title: string;
@@ -19,20 +21,22 @@ interface Articel {
 interface CoverProps {
   title: string;
   createTime: string;
+  updateTime: string;
 }
 
 interface CoverWithProps {
   title: string;
   img: string | undefined;
   createTime: string;
+  updateTime: string;
 }
 
 const backgroundColor = "rgba(var(--semi-grey-5), .1) ";
 
-const Articel = ({ title, createTime, img, content }: Articel) => {
+const Articel = (articleItem: ArticleItem) => {
   return (
     <Card
-      cover={<Cover title={title} createTime={createTime} img={img} />}
+      cover={<Cover title={articleItem.title} createTime={formatDateString(articleItem.created_at)} updateTime={formatDateString(articleItem.updated_at)} img={articleItem.cover_image} />}
       bordered={false}
       style={{
         backgroundColor: backgroundColor,
@@ -40,32 +44,30 @@ const Articel = ({ title, createTime, img, content }: Articel) => {
       }}
     >
       <div className="font" style={{ fontSize: "1rem" }}>
-        {content}
+        {articleItem.summary}
       </div>
       <div
         className="tags"
         style={{ display: "flex", padding: "30px 0 0 0", gap: "10px" }}
       >
         <IconPriceTag />
-        <div className="tag" style={{}}>
-          蓝桥杯
-        </div>
+        {articleItem.tags.map((tag)=>{return <div className="tag" >{tag.name}</div>})}
       </div>
     </Card>
   );
 };
 
-const Cover = ({ title, createTime, img }: CoverWithProps) => {
+const Cover = ({ title, createTime, img,updateTime }: CoverWithProps) => {
   if (img == undefined || img == "") {
-    return <CoverNoWith title={title} createTime={createTime} />;
+    return <CoverNoWith title={title} createTime={createTime} updateTime={updateTime} />;
   } else {
     return (
-      <CoverWith title={title} img={img as string} createTime={createTime} />
+      <CoverWith title={title} img={img as string} createTime={createTime} updateTime={updateTime} />
     );
   }
 };
 
-export const CoverNoWith = ({ title, createTime }: CoverProps) => {
+export const CoverNoWith = ({ title, createTime ,updateTime}: CoverProps) => {
   const Navigate = useNavigate();
   return (
     <div className="cover">
@@ -85,7 +87,7 @@ export const CoverNoWith = ({ title, createTime }: CoverProps) => {
         |
         <a className="cover-info">
           <IconHistory />
-          {createTime}
+          {updateTime}
         </a>
         |
         <a className="cover-info">
@@ -112,7 +114,7 @@ export const CoverNoWith = ({ title, createTime }: CoverProps) => {
   );
 };
 
-const CoverWith = ({ title, img, createTime }: CoverWithProps) => {
+const CoverWith = ({ title, img, createTime,updateTime }: CoverWithProps) => {
   return (
     <div className="coverwith">
       <img className="coverwith-cover" alt="example" src={img} />
@@ -126,7 +128,7 @@ const CoverWith = ({ title, img, createTime }: CoverWithProps) => {
           |
           <a className="cover-info">
             <IconHistory />
-            {createTime}
+            {updateTime}
           </a>
           |
           <a className="cover-info">
