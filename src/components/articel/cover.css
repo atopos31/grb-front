@@ -32,7 +32,7 @@
 .coverwith {
   position: relative;
   width: 100%;
-  max-height: 250px;
+  height: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,7 +41,7 @@
 .coverwith-cover {
   object-fit: cover;
   width: 100%;
-  max-height: 250px;
+  height: 250px;
 }
 
 .coverwith-content {

@@ -18,7 +18,7 @@ interface Tag {
 }
 
 // Category interface for the category used in the object
-interface Category {
+export interface Category {
     id: number;
     name: string;
 }

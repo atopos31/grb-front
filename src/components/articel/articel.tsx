@@ -1,15 +1,12 @@
 import {
   IconBookmark,
-  IconEyeOpened,
-  IconFile,
   IconHistory,
-  IconHourglass,
   IconPriceTag,
 } from "@douyinfe/semi-icons";
 import "./cover.css";
 import { Card } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
-import { ArticleItem } from "../../request/req_article";
+import { ArticleItem, Category } from "../../request/req_article";
 import { formatDateString } from "../../utils/time";
 
 interface Articel {
@@ -17,11 +14,15 @@ interface Articel {
   img: string | undefined;
   createTime: string;
   content: string;
+  category_id: number;
+  category: Category;
 }
 interface CoverProps {
-  title: string;
+  title: string | undefined;
   createTime: string;
   updateTime: string;
+  uuid: number;
+  category: Category | undefined;
 }
 
 interface CoverWithProps {
@@ -29,14 +30,25 @@ interface CoverWithProps {
   img: string | undefined;
   createTime: string;
   updateTime: string;
+  uuid: number;
+  category: Category;
 }
 
-const backgroundColor = "rgba(var(--semi-grey-5), .1) ";
+const backgroundColor = "rgba(var(--semi-grey-0), 0.75) ";
 
 const Articel = (articleItem: ArticleItem) => {
   return (
     <Card
-      cover={<Cover title={articleItem.title} createTime={formatDateString(articleItem.created_at)} updateTime={formatDateString(articleItem.updated_at)} img={articleItem.cover_image} />}
+      cover={
+        <Cover
+          uuid={articleItem.uuid}
+          title={articleItem.title}
+          createTime={formatDateString(articleItem.created_at)}
+          updateTime={formatDateString(articleItem.updated_at)}
+          img={articleItem.cover_image}
+          category={articleItem.category}
+        />
+      }
       bordered={false}
       style={{
         backgroundColor: backgroundColor,
@@ -51,30 +63,60 @@ const Articel = (articleItem: ArticleItem) => {
         style={{ display: "flex", padding: "30px 0 0 0", gap: "10px" }}
       >
         <IconPriceTag />
-        {articleItem.tags.map((tag)=>{return <div className="tag" >{tag.name}</div>})}
+        {articleItem.tags.map((tag) => {
+          return <div className="tag">{tag.name}</div>;
+        })}
       </div>
     </Card>
   );
 };
 
-const Cover = ({ title, createTime, img,updateTime }: CoverWithProps) => {
+const Cover = ({
+  title,
+  createTime,
+  img,
+  updateTime,
+  uuid,
+  category
+}: CoverWithProps) => {
   if (img == undefined || img == "") {
-    return <CoverNoWith title={title} createTime={createTime} updateTime={updateTime} />;
+    return (
+      <CoverNoWith
+        uuid={uuid}
+        title={title}
+        createTime={createTime}
+        updateTime={updateTime}
+        category={category}
+      />
+    );
   } else {
     return (
-      <CoverWith title={title} img={img as string} createTime={createTime} updateTime={updateTime} />
+      <CoverWith
+        uuid={uuid}
+        title={title}
+        img={img as string}
+        createTime={createTime}
+        updateTime={updateTime}
+        category={category}
+      />
     );
   }
 };
 
-export const CoverNoWith = ({ title, createTime ,updateTime}: CoverProps) => {
+export const CoverNoWith = ({
+  title,
+  createTime,
+  updateTime,
+  uuid,
+  category
+}: CoverProps) => {
   const Navigate = useNavigate();
   return (
     <div className="cover">
       <a
         className="cover-title"
         onClick={() => {
-          Navigate("/article/231123");
+          Navigate(`/article/${uuid}`);
         }}
       >
         {title}
@@ -92,34 +134,27 @@ export const CoverNoWith = ({ title, createTime ,updateTime}: CoverProps) => {
         |
         <a className="cover-info">
           <IconBookmark />
-          比赛
-        </a>
-        |
-        <a className="cover-info">
-          <IconEyeOpened />
-          123
-        </a>
-        |
-        <a className="cover-info">
-          <IconFile />
-          32131字
-        </a>
-        |
-        <a className="cover-info">
-          <IconHourglass />
-          23分钟
+          {category?.name}
         </a>
       </div>
     </div>
   );
 };
 
-const CoverWith = ({ title, img, createTime,updateTime }: CoverWithProps) => {
+const CoverWith = ({ title, img, createTime, updateTime,uuid ,category}: CoverWithProps) => {
+  const Navigate = useNavigate();
   return (
     <div className="coverwith">
       <img className="coverwith-cover" alt="example" src={img} />
       <div className="coverwith-content">
-        <p className="coverwith-title">{title}</p>
+        <a
+          className="coverwith-title"
+          onClick={() => {
+            Navigate(`/article/${uuid}`);
+          }}
+        >
+          {title}
+        </a>
         <div className="cover-infos" style={{ color: "#ffffff" }}>
           <a className="cover-info">
             <IconHistory />
@@ -133,22 +168,7 @@ const CoverWith = ({ title, img, createTime,updateTime }: CoverWithProps) => {
           |
           <a className="cover-info">
             <IconBookmark />
-            比赛
-          </a>
-          |
-          <a className="cover-info">
-            <IconEyeOpened />
-            123
-          </a>
-          |
-          <a className="cover-info">
-            <IconFile />
-            32131字
-          </a>
-          |
-          <a className="cover-info">
-            <IconHourglass />
-            23分钟
+            {category.name}
           </a>
         </div>
       </div>
