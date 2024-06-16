@@ -126,7 +126,8 @@ const ArticleEditor = () => {
       // 第一次发布设置uuid
       uuid ?? setUuid(Number(res.data.uuid));
       // 第一次发布后跳转
-      uuid ?? navigate(`/console/article/editor/${res.data.uuid}`,{replace: true});
+      uuid ??
+        navigate(`/console/article/editor/${res.data.uuid}`, { replace: true });
       setStatus(res.data.status);
     }
   };
@@ -156,20 +157,10 @@ const ArticleEditor = () => {
     setTitle(v);
   };
 
-
   return (
-    <div
-      className="articleeditor"
-      style={{
-        overflowY: "scroll",
-        scrollBehavior: "smooth",
-        width: "100%",
-        padding: "20px",
-        overscrollBehavior: "contain",
-      }}
-    >
+    <div className="articleeditor">
       {/* 选项输入 */}
-      <div className="input" style={{ display: "flex", gap: "20px" }}>
+      <div className="input">
         {/* 标题 分类 标签 */}
         <div className="text-input" style={{ width: "60%" }}>
           <Input
@@ -181,10 +172,10 @@ const ArticleEditor = () => {
           <br />
           <br />
           <Select
+            className="cateselect"
             prefix={"分类"}
             onChange={onChangeCate}
             value={cate}
-            style={{ width: "100%" }}
             optionList={cates}
           ></Select>
           <br />
@@ -197,32 +188,16 @@ const ArticleEditor = () => {
             onChange={onChangeTag}
             value={tags}
           />
-          <div
-            className="tags"
-            style={{
-              display: "flex",
-              gap: "10px",
-              padding: "10px 0",
-              alignItems: "center",
-            }}
-          >
-            <a style={{ fontSize: "14px", color: "#999" }}>最多使用:</a>
+          <div className="tags">
+            <a className="mostuse">最多使用:</a>
             {hotTags.map((tag) => (
               <Button type="primary" size="small" onClick={tagAdd}>
                 {tag}
               </Button>
             ))}
 
-            <div
-              className="seitch"
-              style={{
-                marginLeft: "auto",
-                display: "flex",
-                gap: "10px",
-                alignItems: "center",
-              }}
-            >
-              <a style={{ fontSize: "14px", color: "#999" }}>是否置顶:</a>
+            <div className="switchtop">
+              <a className="mostuse">是否置顶:</a>
               <Switch
                 checked={top}
                 onChange={(v) => setop(v)}
@@ -254,16 +229,7 @@ const ArticleEditor = () => {
           </Upload>
         </div>
         {/* 发布 */}
-        <div
-          className="commit"
-          style={{
-            display: "flex",
-            gap: "20px",
-            flexFlow: "column",
-            width: "20%",
-            padding: "20px 0",
-          }}
-        >
+        <div className="commit">
           <Button
             theme="solid"
             type="primary"
