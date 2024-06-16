@@ -1,13 +1,9 @@
 .result {
   font-size: large;
   background-color: rgba(var(--semi-grey-5), .1);
-  img {
-    max-width: 500px;
-    width: 100%;
-    height: auto;
-  }
-  p:has(img) {
+  .figure{
     text-align: center;
+    width: 100%;
   }
 }
 .md-editor-dark {
@@ -24,4 +20,9 @@
 
 .md-editor-catalog-link span:hover {
   color: rgba(var(--semi-blue-7), 1) !important;
+}
+
+
+.medium-zoom-image {
+  margin: 0 auto;
 }

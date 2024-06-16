@@ -27,7 +27,7 @@ const ContentHome = () => {
   const offSide = () => {
     setVisible(false);
   };
-  //主页按钮点击跳转到文章部分
+  //主页下方按钮点击跳转到文章部分
   const handleScrollDown = () => {
     window.scrollTo({
       top: window.innerHeight - 60,
@@ -71,12 +71,11 @@ const ContentHome = () => {
     getSite();
   }, []);
 
+  // 分页数据渲染
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [articleList, setArticleList] = useState<ArticleItem[]>([]);
   useEffect(() => {
-    console.log(currentPage);
-    console.log(pageSize);
     const getArticles = async () => {
       const res = await getArticleList(currentPage, pageSize);
       let articleList : ArticleItem[] = res.data;

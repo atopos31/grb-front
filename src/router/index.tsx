@@ -38,12 +38,22 @@ const router = createBrowserRouter([
                 element: <ConsoleHome/>
             },
             {
-                path: "editor/:euuid",
-                element: <ArticleEditor/>
-            },
-            {
-                path: "editor",
-                element: <ArticleEditor/>
+                path:"article",
+                children:[
+                    // 设置不同的key可以让路由切换时重新加载渲染
+                    {
+                        path: "editor/:euuid",
+                        element: <ArticleEditor key="editor"/>
+                    },
+                    {
+                        path: "editor",
+                        element: <ArticleEditor key="new"/>
+                    },
+                    {
+                        path: "manage",
+                        element: <div>文章管理</div>
+                    }
+                ]
             }
         ]
     }

@@ -9,11 +9,11 @@ const items = [
     icon: <IconEdit />,
     items: [
       {
-        itemKey: "/console/editor",
+        itemKey: "/console/article/editor",
         text: "写文章",
       },
       {
-        itemKey: "managerArticle",
+        itemKey: "/console/article/manage",
         text: "所有文章",
       },
     ],
@@ -21,12 +21,12 @@ const items = [
 ];
 
 const NavV = () => {
-    //路由跳转
-    const navigate = useNavigate();
+  //路由跳转
+  const navigate = useNavigate();
 
   return (
     <Nav
-    defaultIsCollapsed={true}
+      defaultIsCollapsed={true}
       className="nava"
       bodyStyle={{ height: "100%" }}
       items={items}

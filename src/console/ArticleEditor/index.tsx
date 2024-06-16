@@ -117,7 +117,6 @@ const ArticleEditor = () => {
     const res: any = await (uuid
       ? updateArticle(Article, uuid)
       : createArticle(Article));
-    console.log(res);
     if (res.code == 400) {
       Toast.error("参数不全");
       return;
@@ -127,7 +126,7 @@ const ArticleEditor = () => {
       // 第一次发布设置uuid
       uuid ?? setUuid(Number(res.data.uuid));
       // 第一次发布后跳转
-      uuid ?? navigate(`/console/editor/${res.data.uuid}`);
+      uuid ?? navigate(`/console/article/editor/${res.data.uuid}`,{replace: true});
       setStatus(res.data.status);
     }
   };
@@ -150,13 +149,13 @@ const ArticleEditor = () => {
   };
 
   const onChangeCate = (v: any) => {
-    console.log(v);
     setcate(v);
   };
 
   const onChangeTitle = (v: any) => {
     setTitle(v);
   };
+
 
   return (
     <div
