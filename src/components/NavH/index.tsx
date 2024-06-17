@@ -24,7 +24,6 @@ const NavH = ({ setDark, isDark }: NavHprops) => {
   return (
     <Nav
       mode={"horizontal"}
-
       onSelect={(key) => console.log(key)}
       header={{
         logo: <IconSemiLogo style={{ height: "36px", fontSize: 36 }} />,

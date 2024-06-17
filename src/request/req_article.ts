@@ -43,17 +43,25 @@ export interface ArticleItem {
 
 
 export const getArticleList = (page: number, pageSize: number) => {
-    return http.get("/article/list", { params: { page_num : page, page_size : pageSize } })
+    return http.get("/article/list", { params: { page_num: page, page_size: pageSize } })
+}
+
+export const getManageArticleList = (page: number, pageSize: number) => {
+    return http.get("/article/managelist", { params: { page_num: page, page_size: pageSize } })
 }
 
 export const getArticle = (uuid: string) => {
-    return http.get(`/article/get`,{params:{uuid}})
+    return http.get(`/article/get`, { params: { uuid } })
 }
 
 export const createArticle = (data: ArticleData) => {
     return http.post("/article/create", data)
 }
 
-export const updateArticle = (data: ArticleData,uuid:number) => {
+export const updateArticle = (data: ArticleData, uuid: number) => {
     return http.put(`/article/update/${uuid}`, data)
+}
+
+export const updateSectionArtcle = (uuid: number, key: "status" | "top", value: 0 | 1) => {
+    return http.patch(`/article/update/${uuid}`, { key: key, value: value })
 }

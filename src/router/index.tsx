@@ -5,6 +5,7 @@ import ArticelView from "../frontHome/ArticelView";
 import Console from "../console";
 import ConsoleHome from "../console/home";
 import ArticleEditor from "../console/ArticleEditor";
+import ArticleManage from "../console/ArticleManage";
 
 const router = createBrowserRouter([
     {
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "manage",
-                        element: <div>文章管理</div>
+                        element: <ArticleManage/>
                     }
                 ]
             }

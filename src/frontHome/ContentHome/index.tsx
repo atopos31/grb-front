@@ -78,7 +78,7 @@ const ContentHome = () => {
   useEffect(() => {
     const getArticles = async () => {
       const res = await getArticleList(currentPage, pageSize);
-      let articleList : ArticleItem[] = res.data;
+      let articleList : ArticleItem[] = res.data.list;
       setArticleList(articleList);
     };
     getArticles();
