@@ -1,6 +1,8 @@
 import { IconEdit } from "@douyinfe/semi-icons";
 import { Nav } from "@douyinfe/semi-ui";
-import { useNavigate } from "react-router-dom";
+import { OnSelectedData } from "@douyinfe/semi-ui/lib/es/navigation";
+import { ReactText, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const items = [
   {
@@ -21,16 +23,26 @@ const items = [
 ];
 
 const NavV = () => {
-  //路由跳转
+  const location = useLocation();
+  const [keys, setkeys] = useState<ReactText[]>([]);
   const navigate = useNavigate();
+
+  const onSelect = (data: OnSelectedData) => {
+    setkeys([...data.selectedKeys]);
+    navigate(data.itemKey.toString());
+  };
+
+  useEffect(() => {
+    setkeys([location.pathname]);
+  }, [location]);
 
   return (
     <Nav
       defaultIsCollapsed={true}
-      className="nava"
       bodyStyle={{ height: "100%" }}
       items={items}
-      onSelect={(key) => navigate(key.itemKey.toString())}
+      selectedKeys={keys}
+      onSelect={onSelect}
       footer={{
         collapseButton: true,
       }}

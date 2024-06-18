@@ -65,3 +65,7 @@ export const updateArticle = (data: ArticleData, uuid: number) => {
 export const updateSectionArtcle = (uuid: number, key: "status" | "top", value: 0 | 1) => {
     return http.patch(`/article/update/${uuid}`, { key: key, value: value })
 }
+
+export const deleteArticle = (uuid: number) => {
+    return http.delete(`/article/delete/${uuid}`)
+}

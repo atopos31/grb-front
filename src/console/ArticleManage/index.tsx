@@ -1,13 +1,15 @@
-import { Button, Switch, Table, Toast } from "@douyinfe/semi-ui";
+import { Button, Popconfirm, Switch, Table, Toast } from "@douyinfe/semi-ui";
 import "./manage.css";
 import { useEffect, useState } from "react";
 import {
   ArticleItem,
+  deleteArticle,
   getManageArticleList,
   updateSectionArtcle,
 } from "../../request/req_article";
 import { Image } from "@douyinfe/semi-ui";
 import { formatDateString } from "../../utils/time";
+import { useNavigate } from "react-router-dom";
 
 const { Column } = Table;
 
@@ -94,11 +96,49 @@ const ArticleManage = () => {
     );
   };
 
-  const operaterender = (text: any, record: ArticleItem) => {
-    return ( <div>
-        <Button theme='light' type='primary' style={{ marginRight: 8 }}>编辑</Button>
-        <Button theme='light'type='secondary' style={{ marginRight: 8 }}>预览</Button>
-        <Button theme='light' type='danger' >删除</Button>
+  const navigate = useNavigate();
+  const operaterender = (_text: any, record: ArticleItem) => {
+    const onConfirm = async (uuid : number) => {
+      // TODO删除
+      setArticleList(articleList.filter(item => item.uuid !== uuid));
+      const res:any = await deleteArticle(uuid);
+      getArticles();
+      if (res.code === 200) {
+        Toast.success("删除成功");
+      } else {
+        Toast.error("删除失败");
+      }
+    };
+    return (
+      <div>
+        <Button
+          theme="light"
+          type="primary"
+          style={{ marginRight: 8 }}
+          onClick={() => {
+            navigate(`/console/article/editor/${record.uuid}`);
+          }}
+        >
+          编辑
+        </Button>
+        <Button
+          theme="light"
+          type="secondary"
+          style={{ marginRight: 8 }}
+          onClick={() => {
+            navigate(`/article/${record.uuid}`);
+          }}
+        >
+          预览
+        </Button>
+        <Popconfirm
+          okType="danger"
+          title="确定是否删除？"
+          content="此修改将不可逆"
+          onConfirm={()=>{onConfirm(record.uuid)}}
+        >
+          <Button type="danger">删除</Button>
+        </Popconfirm>
       </div>
     );
   };
@@ -139,7 +179,13 @@ const ArticleManage = () => {
           key="size"
           render={statusrender}
         />
-        <Column align="center" title="操作" dataIndex="category" key="size" render={operaterender} />
+        <Column
+          align="center"
+          title="操作"
+          dataIndex="category"
+          key="size"
+          render={operaterender}
+        />
       </Table>
     </div>
   );
