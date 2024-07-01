@@ -21,12 +21,15 @@ http.interceptors.request.use((config) => {
   return config
 })
 
+
 // 相应拦截器
 http.interceptors.response.use(
   (res) => {
     let code = res.data.code
     if (code === 401) {
       // TODO 鉴权失败
+      Toast.error({ content: "token失效，请重新登录！" })
+      location.href = "/console/login"
     }
 
     return res.data

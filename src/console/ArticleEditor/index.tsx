@@ -118,7 +118,7 @@ const ArticleEditor = () => {
       ? updateArticle(Article, uuid)
       : createArticle(Article));
     if (res.code == 400) {
-      Toast.error("参数不全");
+      Toast.error("参数不全"); 
       return;
     }
     if (res.code == 200) {

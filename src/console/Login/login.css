@@ -1,0 +1,23 @@
+body {
+    margin: 0 !important;
+    color: var(--semi-color-text-1);
+    background-color: rgba(var(--semi-grey-1), 1);
+  }
+  .login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+  }
+  
+  .login-box {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 500px; 
+    height: 300px;
+    padding: 20px; 
+    background-color:rgba(var(--semi-grey-0), 0.75); 
+    border-radius: 5px;
+  }
+  

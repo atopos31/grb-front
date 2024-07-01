@@ -5,24 +5,15 @@ import { useEffect, useState } from "react";
 import React from "react";
 import Footer from "./frontHome/Footer";
 import { SideContextType } from "./types";
+import { GetDefaultThemeIsdark } from "./utils/theme";
 
-//用户初次访问 使用系统主题
-const SysDefultTheme = window.matchMedia("(prefers-color-scheme: light)")
-  .matches
-  ? false
-  : true;
-
-//如果访问过 有记录的话 优先用户的选择
-const localDefultTheme = localStorage.getItem("theme-mode");
-const defultTheme = localDefultTheme
-  ? localDefultTheme === "dark"
-  : SysDefultTheme;
+const defultTheme = GetDefaultThemeIsdark()
 //主題上下文 全局可以获取到
-const ThemeContext = React.createContext(defultTheme);
+export const ThemeContext = React.createContext(defultTheme);
 
 export function App() {
   //全局黑暗 白天模式切换
-  const [isDark, setDark] = useState(defultTheme);
+  const [isDark, setDark] = useState<boolean>(defultTheme);
   // 控制侧栏显示
   const [visible, setVisible] = useState(false);
 
@@ -56,4 +47,3 @@ export function App() {
   );
 }
 
-export { ThemeContext };
