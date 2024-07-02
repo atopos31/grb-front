@@ -72,10 +72,10 @@ const ArticleManage = () => {
     }
   };
 
-  const statusrender = (text: boolean, record: ArticleItem) => {
+  const statusrender = (text: number, record: ArticleItem) => {
     return (
       <Switch
-        defaultChecked={text}
+        defaultChecked={text === 1 ? true : false}
         checked={record.status ? true : false}
         onChange={(checked) =>
           handlerSwitch(checked ? 1 : 0, record.uuid, "status")
@@ -84,10 +84,10 @@ const ArticleManage = () => {
     );
   };
 
-  const toprender = (text: boolean, record: ArticleItem) => {
+  const toprender = (text: number, record: ArticleItem) => {
     return (
       <Switch
-        defaultChecked={text}
+        defaultChecked={text === 1 ? true : false}
         checked={record.top ? true : false}
         onChange={(checked) =>
           handlerSwitch(checked ? 1 : 0, record.uuid, "top")
@@ -153,37 +153,38 @@ const ArticleManage = () => {
           total,
           onPageChange: handlePageChange,
         }}
+        rowKey="uuid"
       >
         <Column title="标题" dataIndex="title" key="name" />
         <Column
           title="封面"
           dataIndex="cover_image"
-          key="size"
+          key="1"
           render={coverrender}
         />
         <Column
           title="是否置顶"
           dataIndex="top"
-          key="size"
+          key="2"
           render={toprender}
         />
         <Column
           title="发布时间"
           dataIndex="created_at"
-          key="size"
+          key="3"
           render={timerender}
         />
         <Column
           title="是否发布"
           dataIndex="status"
-          key="size"
+          key="4"
           render={statusrender}
         />
         <Column
           align="center"
           title="操作"
           dataIndex="category"
-          key="size"
+          key="5"
           render={operaterender}
         />
       </Table>

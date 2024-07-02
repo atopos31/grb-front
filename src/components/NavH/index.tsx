@@ -53,7 +53,7 @@ const NavH = ({ setDark, isDark }: NavHprops) => {
       header={{
         logo: <IconSemiLogo style={{ height: "36px", fontSize: 36 }} />,
         text: biggerThan768 ? "GRB后台管理" : "",
-        link: "javascript:void(0);",
+        link: "#",
         linkOptions: {onClick:()=>{navigate("/console")}},
       }}
       footer={

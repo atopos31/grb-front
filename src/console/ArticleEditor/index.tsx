@@ -44,12 +44,9 @@ const ArticleEditor = () => {
   useEffect(() => {
     const getCates = async () => {
       const res = await getCateList();
-      const tcates: { value: number; label: string }[] = [];
-      res.data.map((item: ReqCate) => {
-        tcates.push({ value: item.id, label: item.name });
-      });
-      console.log(tcates);
-      setcates(tcates);
+      setcates(
+        res.data.map((item: ReqCate) => ({ value: item.id, label: item.name }))
+      );
     };
     getCates();
   }, []);
@@ -118,7 +115,7 @@ const ArticleEditor = () => {
       ? updateArticle(Article, uuid)
       : createArticle(Article));
     if (res.code == 400) {
-      Toast.error("参数不全"); 
+      Toast.error("参数不全");
       return;
     }
     if (res.code == 200) {
@@ -135,12 +132,13 @@ const ArticleEditor = () => {
   // 通过点击最多使用的标签来添加标签
   const tagAdd = (e: any) => {
     let tag = (e.target as HTMLButtonElement).innerText;
-    //标签去重
-    if (tags.includes(tag)) return;
     //聚焦
     if (tagInputRef.current) {
       (tagInputRef.current as any).focus();
     }
+    //标签去重
+    if (tags.includes(tag)) return;
+
     tags.push(tag);
     setags(tags);
   };
@@ -190,8 +188,8 @@ const ArticleEditor = () => {
           />
           <div className="tags">
             <a className="mostuse">最多使用:</a>
-            {hotTags.map((tag) => (
-              <Button type="primary" size="small" onClick={tagAdd}>
+            {hotTags.map((tag, key) => (
+              <Button key={key} type="primary" size="small" onClick={tagAdd}>
                 {tag}
               </Button>
             ))}
