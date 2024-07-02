@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom";
 import "./index.css";
 import NavH from "../components/NavH";
 import NavV from "../components/NavV";
+import { getToken } from "../utils/token";
+import { Toast } from "@douyinfe/semi-ui";
 
 //用户初次访问 使用系统主题
 const SysDefultTheme = window.matchMedia("(prefers-color-scheme: light)")
@@ -18,6 +20,17 @@ const defultTheme = localDefultTheme
   : SysDefultTheme;
 
 const Console = () => {
+  // 检测是否登录
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      Toast.error({
+        content: "请先登录",
+        duration: 2,
+      });
+      location.href = "/console/login";
+    }
+  }, []);
   //全局黑暗 白天模式切换
   const [isDark, setDark] = useState(defultTheme);
 

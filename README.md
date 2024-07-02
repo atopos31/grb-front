@@ -1,5 +1,5 @@
-# GRB - Golang React Blog
-我的个人博客项目
+# GRB
+基于React + Golang的个人博客项目
 ![主页](./img/home.png)
 
 # React + TypeScript + Vite + Semi UI

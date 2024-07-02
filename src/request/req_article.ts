@@ -41,31 +41,31 @@ export interface ArticleItem {
 }
 
 
-
+export const getArticle = (uuid: string) => {
+    return http.get(`/article/get`, { params: { uuid } })
+}
 export const getArticleList = (page: number, pageSize: number) => {
     return http.get("/article/list", { params: { page_num: page, page_size: pageSize } })
 }
 
 export const getManageArticleList = (page: number, pageSize: number) => {
-    return http.get("/article/managelist", { params: { page_num: page, page_size: pageSize } })
+    return http.get("/article/manage/list", { params: { page_num: page, page_size: pageSize } })
 }
 
-export const getArticle = (uuid: string) => {
-    return http.get(`/article/get`, { params: { uuid } })
-}
+// Manage 接口 需要管理员权限
 
 export const createArticle = (data: ArticleData) => {
-    return http.post("/article/create", data)
+    return http.post("/article/manage/create", data)
 }
 
 export const updateArticle = (data: ArticleData, uuid: number) => {
-    return http.put(`/article/update/${uuid}`, data)
+    return http.put(`/article/manage/update/${uuid}`, data)
 }
 
 export const updateSectionArtcle = (uuid: number, key: "status" | "top", value: 0 | 1) => {
-    return http.patch(`/article/update/${uuid}`, { key: key, value: value })
+    return http.patch(`/article/manage/update/${uuid}`, { key: key, value: value })
 }
 
 export const deleteArticle = (uuid: number) => {
-    return http.delete(`/article/delete/${uuid}`)
+    return http.delete(`/article/manage/delete/${uuid}`)
 }
