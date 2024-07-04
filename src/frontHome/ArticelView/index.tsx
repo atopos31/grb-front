@@ -7,7 +7,7 @@ import { useMediaPredicate } from "react-media-hook";
 import { useParams } from "react-router-dom";
 import { MdCatalog } from "md-editor-rt";
 import { ArticleItem, getArticle } from "../../request/req_article";
-import { formatDateString } from "../../utils/time";
+import { formatDateMilli } from "../../utils/time";
 
 const ArticelView = () => {
   const isDark = useContext(ThemeContext);
@@ -40,8 +40,8 @@ const ArticelView = () => {
         <CoverNoWith
           uuid={Number(uuid)}
           title={article?.title}
-          createTime={formatDateString(article?.created_at)}
-          updateTime={formatDateString(article?.updated_at)}
+          createTime={formatDateMilli(article?.created_at)}
+          updateTime={formatDateMilli(article?.updated_at)}
           category={article?.category}
         ></CoverNoWith>
       </div>

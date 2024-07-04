@@ -8,7 +8,7 @@ import {
   updateSectionArtcle,
 } from "../../request/req_article";
 import { Image } from "@douyinfe/semi-ui";
-import { formatDateString } from "../../utils/time";
+import { formatDateMilli } from "../../utils/time";
 import { useNavigate } from "react-router-dom";
 
 const { Column } = Table;
@@ -47,7 +47,7 @@ const ArticleManage = () => {
   };
 
   const timerender = (text: any) => {
-    return formatDateString(text);
+    return formatDateMilli(text);
   };
 
   const handlerSwitch = async (
@@ -144,7 +144,7 @@ const ArticleManage = () => {
   };
 
   return (
-    <div className="manage">
+    <div className="article-manage">
       <Table
         dataSource={articleList}
         pagination={{

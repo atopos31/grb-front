@@ -5,7 +5,7 @@ export interface ArticleData {
     title: string;
     cover_image: string;
     tags: string[];
-    created_at: string;
+    created_at: number;
     status: number;
     top: number;
     category_id: number;
@@ -25,8 +25,8 @@ export interface Category {
 
 export interface ArticleItem {
     id: number;
-    created_at: string; // ISO 8601 format date
-    updated_at: string; // ISO 8601 format date
+    created_at: number; // ISO 8601 format date
+    updated_at: number; // ISO 8601 format date
     uuid: number;
     title: string;
     summary: string;

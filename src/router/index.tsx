@@ -7,6 +7,8 @@ import ConsoleHome from "../console/home";
 import ArticleEditor from "../console/ArticleEditor";
 import ArticleManage from "../console/ArticleManage";
 import Login from "../console/Login/login";
+import About from "../frontHome/About";
+import CategoryManage from "../console/CateManage";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +23,7 @@ const router = createBrowserRouter([
       {
         //关于
         path: "about",
-        element: <div>About</div>,
+        element: <About/>,
       },
       {
         //文章页 uuid对应文章id
@@ -57,11 +59,19 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "tags",
+        element: <div>tags</div>,
+      },
+      {
+        path: "categories",
+        element: <CategoryManage />,
+      },
     ],
   },
   {
     path: "/console/login",
-    element: <Login/>,
+    element: <Login />,
   },
 ]);
 

@@ -7,7 +7,7 @@ import "./cover.css";
 import { Card } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
 import { ArticleItem, Category } from "../../request/req_article";
-import { formatDateString } from "../../utils/time";
+import { formatDateMilli } from "../../utils/time";
 
 interface Articel {
   title: string;
@@ -43,8 +43,8 @@ const Articel = (articleItem: ArticleItem) => {
         <Cover
           uuid={articleItem.uuid}
           title={articleItem.title}
-          createTime={formatDateString(articleItem.created_at)}
-          updateTime={formatDateString(articleItem.updated_at)}
+          createTime={formatDateMilli(articleItem.created_at)}
+          updateTime={formatDateMilli(articleItem.updated_at)}
           img={articleItem.cover_image}
           category={articleItem.category}
         />
@@ -63,8 +63,8 @@ const Articel = (articleItem: ArticleItem) => {
         style={{ display: "flex", padding: "30px 0 0 0", gap: "10px" }}
       >
         <IconPriceTag />
-        {articleItem.tags.map((tag) => {
-          return <div className="tag">{tag.name}</div>;
+        {articleItem.tags.map((tag,key) => {
+          return <div key={key} className="tag">{tag.name}</div>;
         })}
       </div>
     </Card>

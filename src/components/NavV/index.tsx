@@ -1,4 +1,4 @@
-import { IconEdit } from "@douyinfe/semi-icons";
+import { IconBookmark, IconEdit, IconPriceTag } from "@douyinfe/semi-icons";
 import { Nav } from "@douyinfe/semi-ui";
 import { OnSelectedData } from "@douyinfe/semi-ui/lib/es/navigation";
 import { ReactText, useEffect, useState } from "react";
@@ -20,6 +20,19 @@ const items = [
       },
     ],
   },
+  {
+    itemKey: "/console/categories",
+    text: "分类管理",
+    icon: <IconBookmark />,
+    items: [],
+  },
+  {
+    itemKey: "/console/tags",
+    text: "标签管理",
+    icon: <IconPriceTag />,
+    items: [],
+  },
+
 ];
 
 const NavV = () => {
@@ -38,7 +51,7 @@ const NavV = () => {
 
   return (
     <Nav
-      defaultIsCollapsed={true}
+      defaultIsCollapsed={false}
       bodyStyle={{ height: "100%" }}
       items={items}
       selectedKeys={keys}

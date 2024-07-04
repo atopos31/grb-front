@@ -50,6 +50,7 @@ const Head = ({ setDark, isDark,setVisible }: HeadProps) => {
             biggerThan768
               ? [
                   { itemKey: "/", text: "首页" },
+                  { itemKey: "/comments", text: "留言板" },
                   { itemKey: "/about", text: "关于" },
                 ]
               : undefined

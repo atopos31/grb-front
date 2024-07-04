@@ -1,16 +1,15 @@
-import { parseISO, format } from 'date-fns';
+import { format } from 'date-fns';
 
-export const formatDateString = (dateString: string | undefined): string => {
-    // 解析时间字符串
-    if (dateString === undefined) {
-        return '';
-    }
-    const date = parseISO(dateString);
-    // 格式化日期
+// 格式化日期为字符串
+export const formatDateMilli = (dateMilli: number|undefined): string => {
+    const date = new Date();
+    date.setTime(dateMilli || 0);
     return format(date, 'yyyy-MM-dd HH:mm');
 }
 
-export const formatDate = (dateString: string): Date => {
-    // 格式化日期
-    return parseISO(dateString)
+// 格式化日期为date对象
+export const formatDate = (dateMilli: number): Date => {
+    const date = new Date();
+    date.setTime(dateMilli);
+    return date;
 }

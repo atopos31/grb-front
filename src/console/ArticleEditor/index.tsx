@@ -35,7 +35,7 @@ const ArticleEditor = () => {
   const [tags, setags] = useState<string[]>([]); //标签
   const [cate, setcate] = useState<number>(); //当前选择的分类
   const [top, setop] = useState<boolean>(false); //置顶
-  const [time, setTime] = useState<Date>();
+  const [creatTime, setCreatTime] = useState<Date>(new Date());
   const [uuid, setUuid] = useState<number>();
   const [status, setStatus] = useState<number>(1);
   const [defalutImg, setDefalutImg] = useState<FileItem[]>([]);
@@ -69,7 +69,9 @@ const ArticleEditor = () => {
     const initArticle = async () => {
       const res = await getArticle(euuid);
       const Article = res.data;
-      setcate(Article.category_id);
+      if (Article.category.id != 0) {
+        setcate(Article.category_id);
+      }
       setTitle(Article.title);
       Article.tags.map((item: any) => {
         tags.push(item.name);
@@ -90,7 +92,7 @@ const ArticleEditor = () => {
           },
         ]);
       }
-      setTime(formatDate(Article.created_at));
+      setCreatTime(formatDate(Article.created_at));
       setUuid(Article.uuid);
       setStatus(Article.status);
       console.log(Article);
@@ -108,7 +110,7 @@ const ArticleEditor = () => {
       category_id: Number(cate),
       top: top ? 1 : 0,
       cover_image: coverImg,
-      created_at: time?.getTime().toString() ?? "",
+      created_at: creatTime.getTime(),
       status: tmpstatus,
     };
     const res: any = await (uuid
@@ -251,9 +253,9 @@ const ArticleEditor = () => {
           <DatePicker
             prefix="发布时间"
             type="dateTime"
-            value={time}
+            value={creatTime}
             onChange={(v) => {
-              setTime(v as Date);
+              setCreatTime(v as Date);
             }}
           />
         </div>
