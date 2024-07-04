@@ -16,7 +16,7 @@ const { Column } = Table;
 const ArticleManage = () => {
   // 分页数据渲染
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(10);
+  const [pageSize] = useState(8);
   const [total, setTotal] = useState(0);
   const [articleList, setArticleList] = useState<ArticleItem[]>([]);
 
@@ -98,10 +98,10 @@ const ArticleManage = () => {
 
   const navigate = useNavigate();
   const operaterender = (_text: any, record: ArticleItem) => {
-    const onConfirm = async (uuid : number) => {
+    const onConfirm = async (uuid: number) => {
       // TODO删除
-      setArticleList(articleList.filter(item => item.uuid !== uuid));
-      const res:any = await deleteArticle(uuid);
+      setArticleList(articleList.filter((item) => item.uuid !== uuid));
+      const res: any = await deleteArticle(uuid);
       getArticles();
       if (res.code === 200) {
         Toast.success("删除成功");
@@ -133,9 +133,11 @@ const ArticleManage = () => {
         </Button>
         <Popconfirm
           okType="danger"
-          title="确定是否删除？"
+          title={`确认删除文章[${record.title}]?`}
           content="此修改将不可逆"
-          onConfirm={()=>{onConfirm(record.uuid)}}
+          onConfirm={() => {
+            onConfirm(record.uuid);
+          }}
         >
           <Button type="danger">删除</Button>
         </Popconfirm>
@@ -156,18 +158,14 @@ const ArticleManage = () => {
         rowKey="uuid"
       >
         <Column title="标题" dataIndex="title" key="name" />
+        <Column title="UUID" dataIndex="uuid" key="id" />
         <Column
           title="封面"
           dataIndex="cover_image"
           key="1"
           render={coverrender}
         />
-        <Column
-          title="是否置顶"
-          dataIndex="top"
-          key="2"
-          render={toprender}
-        />
+        <Column title="是否置顶" dataIndex="top" key="2" render={toprender} />
         <Column
           title="发布时间"
           dataIndex="created_at"
