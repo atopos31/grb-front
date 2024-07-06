@@ -45,7 +45,12 @@ const CategoryManage = () => {
   const showDialog = () => {
     setVisible(true);
   };
+  // 新增标签
   const handleOk = async () => {
+    if (cateList.map((item) => item.name).includes(newCate)) {
+      Toast.error("该分类已存在");
+      return;
+    }
     setVisible(false);
     const res: any = await createCate(newCate);
     if (res.code == 200) {
@@ -72,7 +77,7 @@ const CategoryManage = () => {
   // 标签编辑确认
   const handleEditorOk = async () => {
     setEditorVisible(false);
-    console.log(editorCate,editorCateID);
+    console.log(editorCate, editorCateID);
   };
   // 标签编辑取消监听
   const handleEditorCancel = () => {
@@ -85,9 +90,9 @@ const CategoryManage = () => {
       setEditorCateID(record.id);
       setEditorVisible(true);
     };
-
+    // 标签删除
     const ConfirmDeleteCate = async (id: number) => {
-      setCateList(cateList.filter((item) => item.id!== id));
+      setCateList(cateList.filter((item) => item.id !== id));
       const res: any = await deleteCate(id);
       getCates();
       if (res.code === 200) {
@@ -95,9 +100,7 @@ const CategoryManage = () => {
       } else {
         Toast.error("删除失败");
       }
-
-    }
-
+    };
 
     return (
       <div>
@@ -113,8 +116,8 @@ const CategoryManage = () => {
           okType="danger"
           title={`确认删除分类[${record.name}]?`}
           content="此修改将不可逆"
-          onConfirm={()=> {
-            ConfirmDeleteCate(record.id)
+          onConfirm={() => {
+            ConfirmDeleteCate(record.id);
           }}
         >
           <Button type="danger">删除</Button>

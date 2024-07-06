@@ -48,12 +48,11 @@ export const getArticleList = (page: number, pageSize: number) => {
     return http.get("/article/list", { params: { page_num: page, page_size: pageSize } })
 }
 
-export const getManageArticleList = (page: number, pageSize: number) => {
-    return http.get("/article/manage/list", { params: { page_num: page, page_size: pageSize } })
+export const getManageArticleList = (page: number, pageSize: number ,titleLike: string,cateId: number) => {
+    return http.get("/article/manage/list", { params: { page_num: page, page_size: pageSize,title_like:titleLike ,cate_id: cateId} })
 }
 
 // Manage 接口 需要管理员权限
-
 export const createArticle = (data: ArticleData) => {
     return http.post("/article/manage/create", data)
 }

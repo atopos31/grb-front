@@ -5,3 +5,11 @@
     padding: 20px;
     overscroll-behavior: contain;
 }
+.searchoptions {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}

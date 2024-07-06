@@ -1,4 +1,12 @@
-import { Button, Popconfirm, Switch, Table, Toast } from "@douyinfe/semi-ui";
+import {
+  Button,
+  Input,
+  Popconfirm,
+  Select,
+  Switch,
+  Table,
+  Toast,
+} from "@douyinfe/semi-ui";
 import "./manage.css";
 import { useEffect, useState } from "react";
 import {
@@ -10,6 +18,8 @@ import {
 import { Image } from "@douyinfe/semi-ui";
 import { formatDateMilli } from "../../utils/time";
 import { useNavigate } from "react-router-dom";
+import { IconRefresh } from "@douyinfe/semi-icons";
+import { getCateList, ReqCate } from "../../request/req_cate";
 
 const { Column } = Table;
 
@@ -19,9 +29,40 @@ const ArticleManage = () => {
   const [pageSize] = useState(8);
   const [total, setTotal] = useState(0);
   const [articleList, setArticleList] = useState<ArticleItem[]>([]);
-
+  // 搜索区域
+  const [cate, setcate] = useState<number>(0); //当前选择的分类
+  const [cates, setcates] = useState<{ value: number; label: string }[]>([]); // 所有分类
+  const onChangeCate = (v: any) => {
+    setcate(v);
+  };
+  useEffect(() => {
+    const getCates = async () => {
+      const res = await getCateList();
+      const tmpcates = res.data.map((item: ReqCate) => ({
+        value: item.id,
+        label: item.name,
+      }));
+      tmpcates.unshift({ value: 0, label: "所有分类" });
+      setcates(tmpcates);
+    };
+    getCates();
+  }, []);
+  const [searchTitle, setSearchTitle] = useState("");
+  const onChangeTitle = (v: any) => {
+    setSearchTitle(v);
+  };
+  const handleReset = () => {
+    setSearchTitle("");
+    setcate(0);
+  };
+  // 获取数据部分
   const getArticles = async () => {
-    const res = await getManageArticleList(currentPage, pageSize);
+    const res: any = await getManageArticleList(
+      currentPage,
+      pageSize,
+      searchTitle,
+      cate
+    );
     let articleList: ArticleItem[] = res.data.list;
     setTotal(res.data.count);
     setArticleList(articleList);
@@ -30,10 +71,10 @@ const ArticleManage = () => {
   const handlePageChange = (currentPage: any) => {
     setCurrentPage(currentPage);
   };
-
+  // 监听页数变化 搜索标题变化 所选分类变化
   useEffect(() => {
     getArticles();
-  }, [currentPage]);
+  }, [currentPage, searchTitle, cate]);
 
   const coverrender = (text: any) => {
     return (
@@ -147,6 +188,24 @@ const ArticleManage = () => {
 
   return (
     <div className="article-manage">
+      <div className="searchoptions">
+        <Input
+          placeholder="搜索"
+          prefix="文章标题"
+          value={searchTitle}
+          onChange={onChangeTitle}
+        />
+        <Select
+          className="cateselect"
+          prefix="分类"
+          onChange={onChangeCate}
+          value={cate}
+          optionList={cates}
+        ></Select>
+        <Button icon={<IconRefresh />} onClick={handleReset}>
+          重置
+        </Button>
+      </div>
       <Table
         dataSource={articleList}
         pagination={{
@@ -158,13 +217,14 @@ const ArticleManage = () => {
         rowKey="uuid"
       >
         <Column title="标题" dataIndex="title" key="name" />
-        <Column title="UUID" dataIndex="uuid" key="id" />
         <Column
           title="封面"
           dataIndex="cover_image"
           key="1"
           render={coverrender}
         />
+        <Column title="分类" dataIndex="category.name" key="category" />
+
         <Column title="是否置顶" dataIndex="top" key="2" render={toprender} />
         <Column
           title="发布时间"
