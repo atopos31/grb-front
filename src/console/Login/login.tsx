@@ -37,9 +37,6 @@ const Login = () => {
   const [rememberPass, setRememberPass] = useState<boolean>(false);
   const navigate = useNavigate();
   const handleLogin = async () => {
-    //TODO:登录
-    console.log(username, password);
-    console.log(rememberPass);
     const res: any = await LoginUser(username, password);
     if (res.code == 200) {
       Toast.success({ content: "登录成功" });
@@ -52,8 +49,10 @@ const Login = () => {
         localStorage.removeItem(passwordKey);
       }
       navigate("/console");
+    } else if (res.code == 402) {
+      Toast.error({ content: "账号或密码错误" });
     } else {
-      Toast.error({ content: "登陆失败" });
+      Toast.error({ content: "服务器错误" });
     }
   };
 

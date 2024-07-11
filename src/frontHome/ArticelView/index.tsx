@@ -47,7 +47,7 @@ const ArticelView = () => {
       </div>
       <div
         className="article"
-        style={biggerThan768 ? { width: "80%" } : { width: "90%" }}
+        style={biggerThan768 ? { width: "80%" } : { width: "95%" }}
       >
         <div
           className="article-content"

@@ -9,6 +9,7 @@ import ArticleManage from "../console/ArticleManage";
 import Login from "../console/Login/login";
 import About from "../frontHome/About";
 import CategoryManage from "../console/CateManage";
+import TagManage from "../console/TagManage";
 
 const router = createBrowserRouter([
   {
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
       },
       {
         path: "tags",
-        element: <div>tags</div>,
+        element: <TagManage/>,
       },
       {
         path: "categories",

@@ -48,8 +48,8 @@ const ArticleManage = () => {
     getCates();
   }, []);
   const [searchTitle, setSearchTitle] = useState("");
-  const onChangeTitle = (v: any) => {
-    setSearchTitle(v);
+  const onChangeTitle = (v: string) => {
+    setSearchTitle(v.trim());
   };
   const handleReset = () => {
     setSearchTitle("");
@@ -191,7 +191,7 @@ const ArticleManage = () => {
       <div className="searchoptions">
         <Input
           placeholder="搜索"
-          prefix="文章标题"
+          prefix="标题"
           value={searchTitle}
           onChange={onChangeTitle}
         />

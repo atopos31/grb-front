@@ -11,23 +11,21 @@ interface badge {
 }
 
 const Footer = () => {
-  const [badges,setBadges] = useState<badge[]>([])
-  useEffect(()=>{
+  const [badges, setBadges] = useState<badge[]>([]);
+  useEffect(() => {
     const getBadges = async () => {
-      const res = await getBadgesInfo()
-      setBadges(res.data)
-    }
-    getBadges()
-  },[])
+      const res = await getBadgesInfo();
+      setBadges(res.data);
+    };
+    getBadges();
+  }, []);
 
   return (
     <div className="footer">
       <p className="content">@2022-2024 All Rights Reserved</p>
-      <div
-        className="badge"
-      >
+      <div className="badge">
         {/* 了解更多，访问https://shields.io */}
-        {badges.map((badge,index) => (
+        {badges.map((badge, index) => (
           <a target="_blank" href={badge.href} key={index}>
             <img
               alt="Static Badge"
@@ -36,6 +34,9 @@ const Footer = () => {
           </a>
         ))}
       </div>
+      <a className="styled-link" target="_blank" href="https://beian.miit.gov.cn/">
+        辽ICP备2022010174号
+      </a>
     </div>
   );
 };

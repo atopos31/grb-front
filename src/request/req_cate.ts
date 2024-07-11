@@ -24,6 +24,10 @@ export const createCate = (name: string) => {
   return http.post("/category/manage/create", { name: name });
 }
 
+export const updateCate = (id: number, name: string) => {
+  return http.put("/category/manage/update", { id: id, name: name });
+}
+
 export const deleteCate = (id: number) => {
   return http.delete(`/category/manage/delete/${id}`);
 }

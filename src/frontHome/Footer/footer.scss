@@ -1,28 +1,36 @@
 .footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
 }
 
 .content {
-    max-width: 80%;
-    @media screen and (max-width: 768px) {
-        max-width: 100%;
-    }
+  max-width: 80%;
+  @media screen and (max-width: 768px) {
+    max-width: 100%;
+  }
 }
 
 .badge {
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
 }
-
 
 p {
-    margin: 0;
+  margin: 0;
 }
+
+.styled-link {
+  text-decoration: none;
+  font-size: 15px;
+  color: var(--semi-color-text-5); /* Link color */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+

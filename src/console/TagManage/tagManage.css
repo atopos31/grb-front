@@ -1,0 +1,7 @@
+.tag-manage {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    width: 100%;
+    padding: 20px;
+    overscroll-behavior: contain;
+}

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import {
-  ReqManageCate,
-  createCate,
-  deleteCate,
-  getCateManageList,
-  updateCate,
-} from "../../request/req_cate";
+  ReqManageTag,
+  createTag,
+  deleteTag,
+  updateTag,
+} from "../../request/req_tag";
 import {
   Button,
   Input,
@@ -16,20 +15,21 @@ import {
 } from "@douyinfe/semi-ui";
 import Column from "@douyinfe/semi-ui/lib/es/table/Column";
 import { formatDateMilli } from "../../utils/time";
-import "./cateManage.css";
+import "./tagManage.css";
 import { IconPlus } from "@douyinfe/semi-icons";
+import { getTagManageList } from "../../request/req_tag";
 
-const CategoryManage = () => {
+const TagManage = () => {
   // 分页数据渲染
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const [total, setTotal] = useState(0);
-  const [cateList, setCateList] = useState<ReqManageCate[]>([]);
+  const [TagList, setTagList] = useState<ReqManageTag[]>([]);
 
-  const getCates = async () => {
-    const res = await getCateManageList(currentPage, pageSize);
+  const getTags = async () => {
+    const res = await getTagManageList(currentPage, pageSize);
     setTotal(res.data.count);
-    setCateList(res.data.list as ReqManageCate[]);
+    setTagList(res.data.list as ReqManageTag[]);
   };
 
   const handlePageChange = (currentPage: any) => {
@@ -37,72 +37,72 @@ const CategoryManage = () => {
   };
 
   useEffect(() => {
-    getCates();
+    getTags();
   }, [currentPage]);
 
   const [visible, setVisible] = useState(false);
-  const [newCate, setNewCate] = useState("");
+  const [newTag, setNewTag] = useState("");
 
   const showDialog = () => {
     setVisible(true);
   };
-  // 新增分类
+  // 新增标签
   const handleOk = async () => {
-    if (cateList.map((item) => item.name).includes(newCate)) {
-      Toast.error("该分类已存在");
+    if (TagList.map((item) => item.name).includes(newTag)) {
+      Toast.error("该标签已存在");
       return;
     }
     setVisible(false);
-    const res: any = await createCate(newCate);
+    const res: any = await createTag(newTag);
     if (res.code == 200) {
       Toast.success("新增成功");
-      setNewCate("");
-      getCates();
+      setNewTag("");
+      getTags();
     } else {
       Toast.error("新增失败");
     }
   };
   const handleCancel = () => {
     setVisible(false);
-    setNewCate("");
+    setNewTag("");
   };
 
   const timerender = (text: any) => {
     return formatDateMilli(text);
   };
 
-  // 分类编辑相关
+  // 标签编辑相关
   const [editorVisible, setEditorVisible] = useState(false);
-  const [editorCate, setEditorCate] = useState("");
-  const [editorCateID, setEditorCateID] = useState(0);
-  // TODO 分类编辑确认
+  const [editorTag, setEditorTag] = useState("");
+  const [editorTagID, setEditorTagID] = useState(0);
+  // TODO 标签编辑确认
   const handleEditorOk = async () => {
     setEditorVisible(false);
-    console.log(editorCate, editorCateID);
-    const res: any = await updateCate(editorCateID, editorCate);
+    console.log(editorTag, editorTagID);
+    const res: any = await updateTag(editorTagID, editorTag);
     if (res.code == 200) {
-      getCates();
+      getTags();
       Toast.success("更新成功");
     } else {
       Toast.error("编辑失败");
     }
   };
-  // 分类编辑取消监听
+  // 标签编辑取消监听
   const handleEditorCancel = () => {
     setEditorVisible(false);
   };
-  // 分类操作渲染
-  const operaterender = (_text: any, record: ReqManageCate) => {
+  // 标签操作渲染
+  const operaterender = (_text: any, record: ReqManageTag) => {
     const handleeditor = () => {
-      setEditorCate(record.name);
-      setEditorCateID(record.id);
+      setEditorTag(record.name);
+      setEditorTagID(record.id);
       setEditorVisible(true);
     };
-    // 分类删除
-    const ConfirmDeleteCate = async (id: number) => {
-      setCateList(cateList.filter((item) => item.id !== id));
-      const res: any = await deleteCate(id);
-      getCates();
+    // 标签删除
+    const ConfirmDeleteTag = async (id: number) => {
+      setTagList(TagList.filter((item) => item.id !== id));
+      const res: any = await deleteTag(id);
+      getTags();
       if (res.code === 200) {
         Toast.success("删除成功");
       } else {
@@ -122,10 +122,10 @@ const CategoryManage = () => {
         </Button>
         <Popconfirm
           okType="danger"
-          title={`确认删除分类[${record.name}]?`}
+          title={`确认删除标签[${record.name}]?`}
           content="此修改将不可逆"
           onConfirm={() => {
-            ConfirmDeleteCate(record.id);
+            ConfirmDeleteTag(record.id);
           }}
         >
           <Button type="danger">删除</Button>
@@ -135,7 +135,7 @@ const CategoryManage = () => {
   };
 
   return (
-    <div className="cate-manage">
+    <div className="tag-manage">
       <Button
         onClick={showDialog}
         style={{ marginBottom: "10px" }}
@@ -144,22 +144,22 @@ const CategoryManage = () => {
         新增
       </Button>
       <Modal
-        title="新增分类"
+        title="新增标签"
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
         closeOnEsc={true}
       >
         <Input
-          placeholder="请输入分类名称"
-          value={newCate}
+          placeholder="请输入标签名称"
+          value={newTag}
           onChange={(value) => {
-            setNewCate(value);
+            setNewTag(value);
           }}
         />
       </Modal>
       <Table
-        dataSource={cateList}
+        dataSource={TagList}
         pagination={{
           currentPage,
           pageSize,
@@ -169,7 +169,7 @@ const CategoryManage = () => {
         rowKey="uuid"
       >
         <Column title="ID" dataIndex="id" key="1" />
-        <Column title="分类名称" dataIndex="name" key="2" />
+        <Column title="标签名称" dataIndex="name" key="2" />
         <Column title="文章数" dataIndex="count" key="3" />
         <Column
           title="创建时间"
@@ -186,17 +186,17 @@ const CategoryManage = () => {
         />
       </Table>
       <Modal
-        title="编辑分类"
+        title="编辑标签"
         visible={editorVisible}
         onOk={handleEditorOk}
         onCancel={handleEditorCancel}
         closeOnEsc={true}
       >
         <Input
-          placeholder="请输入分类名称"
-          value={editorCate}
+          placeholder="请输入标签名称"
+          value={editorTag}
           onChange={(value) => {
-            setEditorCate(value);
+            setEditorTag(value);
           }}
         />
       </Modal>
@@ -204,4 +204,4 @@ const CategoryManage = () => {
   );
 };
 
-export default CategoryManage;
+export default TagManage;
