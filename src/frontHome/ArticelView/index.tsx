@@ -53,6 +53,17 @@ const ArticelView = () => {
           className="article-content"
           style={biggerThan768 ? { width: "80%" } : { width: "100%" }}
         >
+          <div className="summary">
+            <div className="summary-title">
+              <img src="../src\assets\android.svg" alt="" />
+              <span>由ChatGPT生成的文章摘要</span>
+            </div>
+            <div className="summary-content">
+              <span>
+                {article?.summary}
+              </span>
+            </div>
+          </div>
           <MarkDown textContent={article?.content} darkMode={isDark}></MarkDown>
         </div>
         {biggerThan768 && (

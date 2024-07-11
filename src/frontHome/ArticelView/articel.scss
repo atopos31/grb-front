@@ -4,24 +4,55 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center; /*由于flex-direction: column，因此align-items代表的是水平方向*/
+  align-items: center;
   justify-content: center;
 }
 
-
-
 .article-content {
-
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  background-color: rgba(var(--semi-grey-5), 0.1);
 }
 
 .article {
   max-width: 1280px;
   display: flex;
   align-items: center;
-  padding: 20px;
+}
+
+.summary {
+  margin: 10px 20px 10px 20px;
+  padding: 10px 20px 10px 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+.summary-title {
+  align-items: center;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.summary-title img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.summary-title span {
+  font-size: 15px;
+  font-weight: 700;
+}
+.summary-content {
+  display: block;
+}
+
+.summary-content span {
+  font-size: 0.875rem;
+  vertical-align: middle;
 }
 
 .nav {
@@ -30,7 +61,6 @@
   align-self: flex-start;
   position: sticky;
   top: 85px;
-  background-color: rgba(var(--semi-grey-5), .1);
+  background-color: rgba(var(--semi-grey-5), 0.1);
   margin: 0 10px;
 }
-
