@@ -5,6 +5,11 @@
     width: 100%;
   }
 }
+
+.result img {
+  display: block;
+}
+
 .md-editor-dark {
   --md-bk-color: rgba(var(--semi-grey-5), 0) !important;
 }

@@ -1,3 +1,7 @@
+.head {
+  margin-bottom: 20px;
+}
+
 .articleview {
   padding-top: 100px;
   width: 100%;
@@ -23,8 +27,8 @@
 }
 
 .summary {
-  margin: 10px 20px 10px 20px;
-  padding: 10px 20px 10px 20px;
+  margin: 20px 20px 0px 20px;
+  padding: 20px 20px 20px 20px;
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;
@@ -60,7 +64,7 @@
   height: 100%;
   align-self: flex-start;
   position: sticky;
-  top: 85px;
+  top: 65px;
   background-color: rgba(var(--semi-grey-5), 0.1);
   margin: 0 10px;
 }

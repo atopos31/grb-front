@@ -1,7 +1,7 @@
-import "./index.scss";
 import { MdPreview } from 'md-editor-rt';
 import 'md-editor-rt/lib/preview.css';
 import { useState } from "react";
+import "./index.scss";
 
 type tProps = {
   textContent: string | undefined;
