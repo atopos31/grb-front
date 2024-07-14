@@ -1,10 +1,15 @@
 import { IconMenu, IconSearch } from "@douyinfe/semi-icons";
-import { Button, Nav } from "@douyinfe/semi-ui";
+import { Button, Empty, Input, Modal, Nav } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
 import { useMediaPredicate } from "react-media-hook";
 import useIsAtTop from "./until";
 import Switch from "../../components/buttons/Switch";
-import "./header.css"
+import "./header.css";
+import { useEffect, useState } from "react";
+import { searchArticle, SearchResults } from "../../request/req_article_search";
+import { SeachRes } from "../../components/searchRes";
+import { IllustrationNoResult } from '@douyinfe/semi-illustrations';
+import { IllustrationNoResultDark } from '@douyinfe/semi-illustrations';
 interface HeadProps {
   setDark: (value: ((prevState: boolean) => boolean) | boolean) => void;
   isDark: boolean;
@@ -12,7 +17,7 @@ interface HeadProps {
   visible: boolean;
 }
 
-const Head = ({ setDark, isDark,setVisible }: HeadProps) => {
+const Head = ({ setDark, isDark, setVisible }: HeadProps) => {
   //路由跳转
   const navigate = useNavigate();
   //移动端适配
@@ -34,12 +39,22 @@ const Head = ({ setDark, isDark,setVisible }: HeadProps) => {
     }
   };
 
+  // 搜索框区域
+  const [searchVisible, setSearchVisible] = useState(false);
+  const [query, setQuery] = useState("");
+  const [searchResult, setSearchResult] = useState<SearchResults>();
+  const search = async () => {
+    const res = await searchArticle(query);
+    setSearchResult(res.data as SearchResults);
+  };
+
+  useEffect(() => {
+    search();
+  }, [query]);
+
   return (
-    <div
-      className="container"
-    >
-      <div className="Navf"
-      >
+    <div className="container">
+      <div className="Navf">
         <Nav
           style={{
             backgroundColor: "rgba(var(--semi-grey-1), 0.85)",
@@ -57,8 +72,7 @@ const Head = ({ setDark, isDark,setVisible }: HeadProps) => {
           }
           onSelect={(key) => navigate(key.itemKey.toString())}
           header={
-            <div className="NavHeader"
-            >
+            <div className="NavHeader">
               {biggerThan768 ? undefined : (
                 <Button
                   onClick={onSide}
@@ -81,6 +95,9 @@ const Head = ({ setDark, isDark,setVisible }: HeadProps) => {
                 style={{ borderRadius: "20px", marginRight: 10 }}
                 type="tertiary"
                 icon={<IconSearch />}
+                onClick={() => {
+                  setSearchVisible(true);
+                }}
               >
                 {biggerThan768 ? "搜索文章" : undefined}
               </Button>
@@ -90,7 +107,60 @@ const Head = ({ setDark, isDark,setVisible }: HeadProps) => {
           }
         />
       </div>
-
+      <Modal
+        visible={searchVisible}
+        onCancel={() => setSearchVisible(false)}
+        header={null}
+        footer={
+          <div style={{ color: "var(--semi-color-text-1)" }}>
+            <span style={{ float: "left" }}>{
+              (searchResult && searchResult?.hits && searchResult?.hits.length > 0 )
+              ? `共搜索到${searchResult?.total}条结果，耗时${searchResult?.processingTimeMs}ms` : ""
+              }
+              
+              </span>
+            <span style={{ float: "right" }}>
+            由
+              <a
+                style={{
+                  color: "inherit",
+                  textDecoration: "inherit",
+                  textDecorationLine: "underline",
+                }}
+                target="_blank"
+                href="https://www.meilisearch.com/"
+              >
+                 Meilisearch
+              </a>
+              驱动
+            </span>
+          </div>
+        }
+        style={{ maxWidth: 684, width: "90%" }}
+      >
+        <div className="search-body" style={{ padding: "20px 0px 20px 0px" }}>
+          <Input
+            placeholder="全文检索"
+            value={query}
+            onChange={(v) => setQuery(v)}
+          ></Input>
+          {searchResult && searchResult.hits && searchResult.hits.length > 0 ? searchResult.hits.map((item, key) => (
+            <SeachRes
+              key={key}
+              title={item.title}
+              uuid={item.uuid}
+              summary={item.summary}
+              content={item.content}
+              setSearchVisible={setSearchVisible}
+            />
+          ) ): <Empty
+          image={<IllustrationNoResult style={{ width: 150, height: 150 }} />}
+          darkModeImage={<IllustrationNoResultDark style={{ width: 150, height: 150 }} />}
+          description={'搜索无结果'}
+          style={{padding:"30px"}}
+      />}
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -54,7 +54,7 @@
 .coverwith-title {
   font-size: 1.5rem;
   font-weight: 500;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.95);
   cursor: pointer;
   line-height: 2rem;
   letter-spacing: 0.5px;

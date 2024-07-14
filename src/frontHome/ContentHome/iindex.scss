@@ -103,9 +103,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 20px;
+  margin: 10px;
   width: 90%;
-  max-width: 90%;
+  max-width: 95%;
   @media screen and (max-width: 768px) {
     width: 100%;
   }
@@ -116,8 +116,8 @@
   flex-direction: column;
   gap: 15px;
   width: 30%;
-  margin: 20px;
-  top: 85px;
+  margin: 10px;
+  top: 75px;
   position: sticky;
   align-self: self-start;
   @media screen and (max-width: 768px) {

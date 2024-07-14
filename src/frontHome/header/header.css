@@ -21,3 +21,30 @@
     height: 50px;
     gap: 15px;
 }
+
+.search-article-body {
+    cursor: pointer;
+    margin: 20px 0px 20px 0px;
+    border-radius: 5px;
+}
+
+.search-article-body:hover {
+    background-color: rgba(var(--semi-grey-2), 1);
+}
+
+.search-article-title {
+    font-size: large;
+    margin-bottom: 5px;
+}
+
+.search-article-summary {
+    color: rgba(var(--semi-grey-6), 1);
+}
+
+.search-article-content {
+    color: rgba(var(--semi-grey-6), 1);
+}
+
+.highlight {
+    color: red;
+}

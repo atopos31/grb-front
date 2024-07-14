@@ -6,7 +6,7 @@ function useIsAtTop(_buffer = 100) {
     const handleScroll = () => {
       // 利用防抖技术
       clearTimeout(debounceTimeout);
-      debounceTimeout = setTimeout(() => {
+      setTimeout(() => {
         // 判断是否处于顶部，引入缓冲区概念
         setIsAtTop(window.scrollY==0 || document.documentElement.scrollTop == 0);
       }, 1); // 防抖时间设置为100毫秒

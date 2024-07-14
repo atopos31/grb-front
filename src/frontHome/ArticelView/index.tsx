@@ -18,7 +18,6 @@ const ArticelView = () => {
   const [article, setArticle] = useState<ArticleItem>();
   useEffect(() => {
     if (uuid == undefined) return;
-    console.log(uuid);
     //向后端获取文章内容
     const initArticle = async () => {
       const res = await getArticle(uuid);
@@ -26,7 +25,7 @@ const ArticelView = () => {
       setArticle(Article);
     }
     initArticle()
-  }, []);
+  }, [uuid]);
 
   const [id] = useState("preview-only");
   const [scrollElement] = useState(document.documentElement);
@@ -71,7 +70,7 @@ const ArticelView = () => {
             <MdCatalog
               editorId={id}
               scrollElement={scrollElement}
-              scrollElementOffsetTop={80}
+              scrollElementOffsetTop={60}
             />
           </div>
         )}

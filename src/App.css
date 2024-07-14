@@ -2,5 +2,13 @@ body {
   margin: 0 !important;
   color: var(--semi-color-text-1);
   background-color: rgba(var(--semi-grey-1), 1);
+  width: 100%;
   -webkit-tap-highlight-color: transparent;
+  overflow: auto;
+  
 }
+
+/* body::-webkit-scrollbar {
+  display: none;
+  width: 0px;
+} */
