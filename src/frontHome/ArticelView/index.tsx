@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { MdCatalog } from "md-editor-rt";
 import { ArticleItem, getArticle } from "../../request/req_article";
 import { formatDateMilli } from "../../utils/time";
+import CommentForm from "../../components/commentForm/commentForm";
 
 const ArticelView = () => {
   const isDark = useContext(ThemeContext);
@@ -23,8 +24,8 @@ const ArticelView = () => {
       const res = await getArticle(uuid);
       const Article = res.data;
       setArticle(Article);
-    }
-    initArticle()
+    };
+    initArticle();
   }, [uuid]);
 
   const [id] = useState("preview-only");
@@ -45,26 +46,34 @@ const ArticelView = () => {
         ></CoverNoWith>
       </div>
       <div
-        className="article"
+        className="article-main"
         style={biggerThan768 ? { width: "80%" } : { width: "95%" }}
       >
         <div
-          className="article-content"
+          className="article"
           style={biggerThan768 ? { width: "80%" } : { width: "100%" }}
         >
-          <div className="summary">
-            <div className="summary-title">
-              <img src="../src\assets\android.svg" alt="" />
-              <span>由ChatGPT生成的文章摘要</span>
+          <div className="article-content">
+            <div className="summary">
+              <div className="summary-title">
+                <img src="../src\assets\android.svg" alt="" />
+                <span>由ChatGPT生成的文章摘要</span>
+              </div>
+              <div className="summary-content">
+                <span>{article?.summary}</span>
+              </div>
             </div>
-            <div className="summary-content">
-              <span>
-                {article?.summary}
-              </span>
-            </div>
+            <MarkDown
+              textContent={article?.content}
+              darkMode={isDark}
+            ></MarkDown>
           </div>
-          <MarkDown textContent={article?.content} darkMode={isDark}></MarkDown>
+          <div className="article-comment">
+            
+        <CommentForm uuid={article?.uuid}/>
+      </div>
         </div>
+
         {biggerThan768 && (
           <div className="nav">
             <MdCatalog

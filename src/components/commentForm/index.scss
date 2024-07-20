@@ -1,0 +1,32 @@
+.comment-form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+  }
+}
+
+.comment-content {
+    padding: 20px 0px 20px 0px;
+}
+
+.comment-send {
+  display: flex;
+  gap: 5px;
+  padding: 10px 0px 10px 0px;
+  align-items: center;
+}
+
+.comment-send p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.comment-send-impl {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
