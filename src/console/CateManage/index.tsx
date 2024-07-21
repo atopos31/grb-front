@@ -87,10 +87,6 @@ const CategoryManage = () => {
       Toast.error("编辑失败");
     }
   };
-  // 分类编辑取消监听
-  const handleEditorCancel = () => {
-    setEditorVisible(false);
-  };
   // 分类操作渲染
   const operaterender = (_text: any, record: ReqManageCate) => {
     const handleeditor = () => {
@@ -189,7 +185,7 @@ const CategoryManage = () => {
         title="编辑分类"
         visible={editorVisible}
         onOk={handleEditorOk}
-        onCancel={handleEditorCancel}
+        onCancel={()=>{setEditorVisible(false)}}
         closeOnEsc={true}
       >
         <Input

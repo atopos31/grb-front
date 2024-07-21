@@ -1,0 +1,66 @@
+.child-comment-item {
+    padding-left: 3rem;
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+.child-comment-item-avatar img {
+    width: 1.5rem;
+    height: 1.5rem; 
+    border-radius: 9999px;
+}
+
+.child-comment-item-avatar a {
+    cursor: pointer;
+}
+
+.child-comment-item-infos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem; 
+    flex-grow: 1;
+}
+
+.child-comment-item-center {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.child-comment-item-infos-name {
+    font-size: 0.75rem; /* 12px */
+    color: #FB7299;
+    font-weight: 700;
+}
+
+.child-comment-item-infos-reply-name {
+    color: #0284C7;
+}
+
+.child-comment-item-infos-reply {
+    font-size: 0.875rem;
+    
+}
+
+.child-comment-item-infos-content {
+    font-size: 0.875rem;
+}
+
+.child-comment-item-infos-buttom {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem; /* 12px */
+    color: #9CA3AF; /* Gray 400 */
+    margin-left: 2rem;
+}
+
+.child-comment-item-infos-buttom-reply {
+    color: #9CA3AF; /* Gray 400 */
+    cursor: pointer;
+    margin-left: 1rem; /* 16px */
+    border-radius: 0.125rem; /* 2px */
+}
+
+.child-comment-item-infos-buttom-reply:hover {
+    color: #0284C7;
+}

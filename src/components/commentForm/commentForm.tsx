@@ -1,21 +1,17 @@
 import { Button, Checkbox, Input, Popover, TextArea, Toast } from "@douyinfe/semi-ui";
 import "./index.scss";
 import { IconComment } from "@douyinfe/semi-icons";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { createRootComment, FormState } from "../../request/req_comment";
 
 interface CommentProps {
   uuid: number | undefined;
+  setFormState: (value: ((prevState: FormState) => FormState) | FormState) => void;
+  formState: FormState;
 }
 
-const CommentForm = (commentProps: CommentProps) => {
-  const [formState, setFormState] = useState<FormState>({
-    name: "",
-    email: "",
-    website: "",
-    content: "",
-    isSave: false,
-  });
+const CommentForm = ({uuid,formState,setFormState}: CommentProps) => {
+
 
   useEffect(() => {
     const strForm = localStorage.getItem("formState")
@@ -38,6 +34,7 @@ const CommentForm = (commentProps: CommentProps) => {
       ...prevState,
       [field]: value,
     }));
+
   };
 
   const sendComment = async ()=>{
@@ -46,11 +43,13 @@ const CommentForm = (commentProps: CommentProps) => {
     } else {
         localStorage.removeItem("formState")
     }
-    const res:any = await createRootComment(formState,commentProps.uuid)
+    const res:any = await createRootComment(formState,uuid)
     if (res.code == 200) {
-        Toast.success("发送成功")
+        Toast.success("发送成功! 审核后可见")
+    } else if (res.code == 400) {
+        Toast.error("参数不全")
     } else {
-        Toast.error("发送失败")
+      Toast.error("发送失败:" + res.message)
     }
   }
 
