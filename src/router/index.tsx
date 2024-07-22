@@ -11,8 +11,7 @@ import CategoryManage from "../console/CateManage";
 import TagManage from "../console/TagManage";
 import { lazy, Suspense } from "react";
 import { Spin } from "@douyinfe/semi-ui";
-
-const ArticelLazyView = lazy(() => import("../frontHome/ArticelView"));
+import ArticelView from "../frontHome/ArticelView";
 
 const router = createBrowserRouter([
   {
@@ -32,11 +31,7 @@ const router = createBrowserRouter([
       {
         //文章页 uuid对应文章id
         path: "article/:uuid",
-        element: (
-          <Suspense fallback={<Spin size="large"></Spin>}>
-              <ArticelLazyView />
-          </Suspense>
-        ),
+        element: <ArticelView/>,
       },
     ],
   },
