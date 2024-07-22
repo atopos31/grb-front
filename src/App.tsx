@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Head from "./frontHome/Header";
 import "./App.css";
 import { useEffect, useState } from "react";
@@ -21,6 +21,11 @@ export function App() {
     visible: visible,
     setVisible: setVisible,
   }
+
+  const loaction = useLocation();
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[loaction])
 
 
   //当isdark发生变化时全局改变背景颜色

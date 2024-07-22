@@ -1,4 +1,4 @@
-import MarkDown from "../../components/MarkDown";
+// import MarkDown from "../../components/MarkDown";
 import "./articel.scss";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../App";
@@ -17,25 +17,19 @@ import {
   FormState,
   getCommentList,
 } from "../../request/req_comment";
-import { Modal } from "@douyinfe/semi-ui";
+import { Modal, Spin } from "@douyinfe/semi-ui";
+import MarkDown from "../../components/MarkDown";
+
+
 
 const ArticelView = () => {
+  const [isLoading,setIsLoading] = useState<boolean>(true)
   const isDark = useContext(ThemeContext);
   //测试文章
   const biggerThan768 = useMediaPredicate("(min-width: 768px)");
   //获取文章id
   const { uuid } = useParams();
   const [article, setArticle] = useState<ArticleItem>();
-  useEffect(() => {
-    if (uuid == undefined) return;
-    //向后端获取文章内容
-    const initArticle = async () => {
-      const res = await getArticle(uuid);
-      const Article = res.data;
-      setArticle(Article);
-    };
-    initArticle();
-  }, [uuid]);
 
   const [id] = useState("preview-only");
   const [scrollElement] = useState(document.documentElement);
@@ -51,19 +45,27 @@ const ArticelView = () => {
   });
 
   const [comments, setComments] = useState<AComment[]>();
-  const getComments = async () => {
-    const res = await getCommentList(uuid);
-    setComments(res.data);
-  };
-  useEffect(() => {
-    getComments();
-    console.log(comments);
-  }, [uuid]);
+
 
   const [replyVisible, setReplyVisible] = useState<boolean>(false);
   const [replyItem, setReplyItem] = useState<
     AComment | ChildComment | undefined
   >(undefined);
+
+  const initdata = async ()=> {
+    if (uuid == undefined) return;
+    setIsLoading(true)
+    const resC = await getCommentList(uuid);
+    setComments(resC.data);
+    const resA = await getArticle(uuid);
+    const Article = resA.data;
+    setArticle(Article);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    initdata()
+  }, [uuid]);
 
   const replyRender = () => {
     // replyItem类型断言
@@ -77,95 +79,99 @@ const ArticelView = () => {
   };
 
   return (
+    isLoading ?
+    <div className="isloading"><Spin style={{width:"500px"}} tip="加载中" size="large"></Spin></div>
+    :
     <div className="articleview">
-      <div
-        className="head"
-        style={biggerThan768 ? { width: "80%" } : { width: "90%" }}
-      >
-        <CoverNoWith
-          uuid={Number(uuid)}
-          title={article?.title}
-          createTime={formatDateMilli(article?.created_at)}
-          updateTime={formatDateMilli(article?.updated_at)}
-          category={article?.category}
-        ></CoverNoWith>
-      </div>
-      <div
-        className="article-main"
-        style={biggerThan768 ? { width: "80%" } : { width: "95%" }}
-      >
-        <div
-          className="article"
-          style={biggerThan768 ? { width: "80%" } : { width: "100%" }}
-        >
-          <div className="article-content">
-            <div className="summary">
-              <div className="summary-title">
-                <img src="../src\assets\android.svg" alt="" />
-                <span>由ChatGPT生成的文章摘要</span>
-              </div>
-              <div className="summary-content">
-                <span>{article?.summary}</span>
-              </div>
-            </div>
-            <MarkDown
-              textContent={article?.content}
-              darkMode={isDark}
-            ></MarkDown>
-          </div>
-          <div className="article-comment">
-            <CommentForm
-              uuid={article?.uuid}
-              formState={formState}
-              setFormState={setFormState}
-            />
-            {comments?.map((item, key) => {
-              return (
-                <div key={key}>
-                  <CommentItem key={key} item={item} setVisible={setReplyVisible} setItem={setReplyItem}/>
-                  {item.child_comment.map((childitem, key) => {
-                    return (
-                      <ChildCommentItem
-                        key={key}
-                        item={childitem}
-                        replayname={
-                          item.child_comment.find(
-                            (item) => item.id == childitem.parentId
-                          )?.userName || ""
-                        }
-                        setVisible={setReplyVisible}
-                        setItem={setReplyItem}
-                      />
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {biggerThan768 && (
-          <div className="nav">
-            <MdCatalog
-              editorId={id}
-              scrollElement={scrollElement}
-              scrollElementOffsetTop={60}
-            />
-          </div>
-        )}
-      </div>
-      <Modal
-        title="回复"
-        visible={replyVisible}
-        onCancel={() => {
-          setReplyVisible(false);
-        }}
-        closeOnEsc={true}
-        centered={true}
-      >
-        {replyRender()}
-      </Modal>
+    <div
+      className="head"
+      style={biggerThan768 ? { width: "80%" } : { width: "90%" }}
+    >
+      <CoverNoWith
+        uuid={Number(uuid)}
+        title={article?.title}
+        createTime={formatDateMilli(article?.created_at)}
+        updateTime={formatDateMilli(article?.updated_at)}
+        category={article?.category}
+      ></CoverNoWith>
     </div>
+    <div
+      className="article-main"
+      style={biggerThan768 ? { width: "80%" } : { width: "95%" }}
+    >
+      <div
+        className="article"
+        style={biggerThan768 ? { width: "80%" } : { width: "100%" }}
+      >
+        <div className="article-content">
+          <div className="summary">
+            <div className="summary-title">
+              <img src="../src\assets\android.svg" alt="" />
+              <span>由ChatGPT生成的文章摘要</span>
+            </div>
+            <div className="summary-content">
+              <span>{article?.summary}</span>
+            </div>
+          </div>
+          <MarkDown
+            textContent={article?.content}
+            darkMode={isDark}
+          ></MarkDown>
+
+        </div>
+        <div className="article-comment">
+          <CommentForm
+            uuid={article?.uuid}
+            formState={formState}
+            setFormState={setFormState}
+          />
+          {comments?.map((item, key) => {
+            return (
+              <div key={key}>
+                <CommentItem key={key} item={item} setVisible={setReplyVisible} setItem={setReplyItem}/>
+                {item.child_comment.map((childitem, key) => {
+                  return (
+                    <ChildCommentItem
+                      key={key}
+                      item={childitem}
+                      replayname={
+                        item.child_comment.find(
+                          (item) => item.id == childitem.parentId
+                        )?.userName || ""
+                      }
+                      setVisible={setReplyVisible}
+                      setItem={setReplyItem}
+                    />
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {biggerThan768 && (
+        <div className="nav">
+          <MdCatalog
+            editorId={id}
+            scrollElement={scrollElement}
+            scrollElementOffsetTop={60}
+          />
+        </div>
+      )}
+    </div>
+    <Modal
+      title="回复"
+      visible={replyVisible}
+      onCancel={() => {
+        setReplyVisible(false);
+      }}
+      closeOnEsc={true}
+      centered={true}
+    >
+      {replyRender()}
+    </Modal>
+  </div>
   );
 };
 

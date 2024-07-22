@@ -1,5 +1,5 @@
 import { IconMenu, IconSearch } from "@douyinfe/semi-icons";
-import { Button, Empty, Input, Modal, Nav } from "@douyinfe/semi-ui";
+import { Button, Empty, Input, Modal, Nav, Spin } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
 import { useMediaPredicate } from "react-media-hook";
 import useIsAtTop from "./until";
@@ -40,12 +40,15 @@ const Head = ({ setDark, isDark, setVisible }: HeadProps) => {
   };
 
   // 搜索框区域
+  const [isLoading,setIsLoading] = useState<boolean>(false)
   const [searchVisible, setSearchVisible] = useState(false);
   const [query, setQuery] = useState("");
   const [searchResult, setSearchResult] = useState<SearchResults>();
   const search = async () => {
+    setIsLoading(true)
     const res = await searchArticle(query);
     setSearchResult(res.data as SearchResults);
+    setIsLoading(false)
   };
 
   useEffect(() => {
@@ -144,21 +147,25 @@ const Head = ({ setDark, isDark, setVisible }: HeadProps) => {
             value={query}
             onChange={(v) => setQuery(v)}
           ></Input>
-          {searchResult && searchResult.hits && searchResult.hits.length > 0 ? searchResult.hits.map((item, key) => (
-            <SeachRes
-              key={key}
-              title={item.title}
-              uuid={item.uuid}
-              summary={item.summary}
-              content={item.content}
-              setSearchVisible={setSearchVisible}
-            />
-          ) ): <Empty
-          image={<IllustrationNoResult style={{ width: 150, height: 150 }} />}
-          darkModeImage={<IllustrationNoResultDark style={{ width: 150, height: 150 }} />}
-          description={'搜索无结果'}
-          style={{padding:"30px"}}
-      />}
+          {
+            isLoading ? <div className="search-loading" style={{height: "200px",display:"flex",alignItems:"center",justifyContent:"center"}}><Spin style={{width: 100}} tip="检索中" size="large"></Spin></div> :
+            (searchResult && searchResult.hits && searchResult.hits.length > 0 ? searchResult.hits.map((item, key) => (
+              <SeachRes
+                key={key}
+                title={item.title}
+                uuid={item.uuid}
+                summary={item.summary}
+                content={item.content}
+                setSearchVisible={setSearchVisible}
+              />
+            ) ): <Empty
+            image={<IllustrationNoResult style={{ width: 150, height: 150 }} />}
+            darkModeImage={<IllustrationNoResultDark style={{ width: 150, height: 150 }} />}
+            description={'搜索无结果'}
+            style={{padding:"30px"}}
+        />)
+          }
+          
         </div>
       </Modal>
     </div>

@@ -41,7 +41,7 @@ export interface ArticleItem {
 }
 
 
-export const getArticle = (uuid: string) => {
+export const getArticle = (uuid: string | undefined) => {
     return http.get(`/article/get`, { params: { uuid } })
 }
 export const getArticleList = (page: number, pageSize: number) => {

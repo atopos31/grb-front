@@ -79,3 +79,11 @@
   margin-top: 10px;
   padding: 10px;
 }
+
+.isloading {
+  display: flex;
+  height: 100vh;
+  // 中央居中
+  align-items: center;
+  justify-content: center;
+}

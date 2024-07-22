@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { App } from "../App";
 import ContentHome from "../frontHome/ContentHome";
-import ArticelView from "../frontHome/ArticelView";
 import Console from "../console";
 import ConsoleHome from "../console/home";
 import ArticleEditor from "../console/ArticleEditor";
@@ -10,6 +9,10 @@ import Login from "../console/Login/login";
 import About from "../frontHome/About";
 import CategoryManage from "../console/CateManage";
 import TagManage from "../console/TagManage";
+import { lazy, Suspense } from "react";
+import { Spin } from "@douyinfe/semi-ui";
+
+const ArticelLazyView = lazy(() => import("../frontHome/ArticelView"));
 
 const router = createBrowserRouter([
   {
@@ -24,12 +27,16 @@ const router = createBrowserRouter([
       {
         //关于
         path: "about",
-        element: <About/>,
+        element: <About />,
       },
       {
         //文章页 uuid对应文章id
         path: "article/:uuid",
-        element: <ArticelView />,
+        element: (
+          <Suspense fallback={<Spin size="large"></Spin>}>
+              <ArticelLazyView />
+          </Suspense>
+        ),
       },
     ],
   },
@@ -62,7 +69,7 @@ const router = createBrowserRouter([
       },
       {
         path: "tags",
-        element: <TagManage/>,
+        element: <TagManage />,
       },
       {
         path: "categories",
