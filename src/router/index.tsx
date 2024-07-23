@@ -9,9 +9,9 @@ import Login from "../console/Login/login";
 import About from "../frontHome/About";
 import CategoryManage from "../console/CateManage";
 import TagManage from "../console/TagManage";
-import { lazy, Suspense } from "react";
-import { Spin } from "@douyinfe/semi-ui";
 import ArticelView from "../frontHome/ArticelView";
+import Comments from "../frontHome/comments";
+import NotFound from "../frontHome/404";
 
 const router = createBrowserRouter([
   {
@@ -29,9 +29,17 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
+        path: "comments",
+        element: <Comments />,
+      },
+      {
         //文章页 uuid对应文章id
         path: "article/:uuid",
         element: <ArticelView/>,
+      },
+      {
+        path: "*",
+        element: <NotFound/>
       },
     ],
   },

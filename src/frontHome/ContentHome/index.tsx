@@ -3,10 +3,8 @@ import { useMediaPredicate } from "react-media-hook";
 import { Articel } from "../../components/articel/articel";
 import { IconChevronDown } from "@douyinfe/semi-icons";
 import SocialButton from "../../components/buttons/socialButton";
-import { Pagination, SideSheet } from "@douyinfe/semi-ui";
+import { Pagination } from "@douyinfe/semi-ui";
 import HomeCard from "../../components/homeCard/homecard";
-import { useOutletContext } from "react-router-dom";
-import { SideContextType } from "../../types";
 import InfoCard from "../../components/infoCard/infoCard";
 import { useEffect, useState } from "react";
 import { ReqTag, getTagList } from "../../request/req_tag";
@@ -14,7 +12,7 @@ import { ReqCate, getCateList } from "../../request/req_cate";
 import { getSiteBasicInfo, getSiteInfo } from "../../request/req_siteinfo";
 import { ArticleItem, getArticleList } from "../../request/req_article";
 
-const SitekeyValueArray: {[key: string]: string} = {
+export const SitekeyValueArray: {[key: string]: string} = {
   "articlecount": "文章数",
   "categorycount": "分类数",
   "tagcount": "标签数",
@@ -23,10 +21,6 @@ const SitekeyValueArray: {[key: string]: string} = {
 };
 const ContentHome = () => {
   const biggerThan768 = useMediaPredicate("(min-width: 768px)");
-  const { setVisible, visible } = useOutletContext<SideContextType>();
-  const offSide = () => {
-    setVisible(false);
-  };
   //主页下方按钮点击跳转到文章部分
   const handleScrollDown = () => {
     window.scrollTo({
@@ -63,7 +57,7 @@ const ContentHome = () => {
           value: value as string,
         }))
       );
-      setTotal(res.data.articlecount);
+
     };
     getBasicInfo();
     getCates();
@@ -78,6 +72,7 @@ const ContentHome = () => {
   useEffect(() => {
     const getArticles = async () => {
       const res = await getArticleList(currentPage, pageSize);
+      setTotal(res.data.count);
       let articleList : ArticleItem[] = res.data.list;
       setArticleList(articleList);
     };
@@ -147,23 +142,7 @@ const ContentHome = () => {
         </div>
       </div>
       {/* 侧边栏 */}
-      <SideSheet
-        title="星空未来的个人博客"
-        visible={visible}
-        onCancel={offSide}
-        placement="left"
-        width={270}
-      >
-        <div className="side-item">
-          <p>留言板</p>
-          <p>关于</p>
-        </div>
-        <HomeCard title="分类" color="violet" values={cates} />
-        <br></br>
-        <HomeCard title="标签" color="blue" values={tags} />
-        <br></br>
-        <InfoCard title="站点信息" data={siteinfo} />
-      </SideSheet>
+
     </div>
   );
 };

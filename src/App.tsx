@@ -4,7 +4,6 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import React from "react";
 import Footer from "./frontHome/Footer";
-import { SideContextType } from "./types";
 import { GetDefaultThemeIsdark } from "./utils/theme";
 
 const defultTheme = GetDefaultThemeIsdark()
@@ -14,13 +13,6 @@ export const ThemeContext = React.createContext(defultTheme);
 export function App() {
   //全局黑暗 白天模式切换
   const [isDark, setDark] = useState<boolean>(defultTheme);
-  // 控制侧栏显示
-  const [visible, setVisible] = useState(false);
-
-  const sidecontext: SideContextType = {
-    visible: visible,
-    setVisible: setVisible,
-  }
 
   const loaction = useLocation();
   useEffect(()=>{
@@ -42,9 +34,9 @@ export function App() {
     <ThemeContext.Provider value={isDark}>
       <>
         {/* 顶部栏 */}
-        <Head setDark={setDark} isDark={isDark} setVisible={setVisible} visible={visible} />
+        <Head setDark={setDark} isDark={isDark} />
         {/* 子路由切换 */}
-        <Outlet context={sidecontext}/>
+        <Outlet />
         {/* 底部栏 TODO 由后端传入底部栏信息 */}
         <Footer />
       </>

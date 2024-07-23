@@ -1,5 +1,5 @@
 import { IconMenu, IconSearch } from "@douyinfe/semi-icons";
-import { Button, Empty, Input, Modal, Nav, Spin } from "@douyinfe/semi-ui";
+import { Button, Empty, Input, Modal, Nav, SideSheet, Spin } from "@douyinfe/semi-ui";
 import { useNavigate } from "react-router-dom";
 import { useMediaPredicate } from "react-media-hook";
 import useIsAtTop from "./until";
@@ -10,14 +10,18 @@ import { searchArticle, SearchResults } from "../../request/req_article_search";
 import { SeachRes } from "../../components/searchRes";
 import { IllustrationNoResult } from '@douyinfe/semi-illustrations';
 import { IllustrationNoResultDark } from '@douyinfe/semi-illustrations';
+import HomeCard from "../../components/homeCard/homecard";
+import InfoCard from "../../components/infoCard/infoCard";
+import { SitekeyValueArray } from "../ContentHome";
+import { getSiteInfo } from "../../request/req_siteinfo";
+import { ReqCate, getCateList } from "../../request/req_cate";
+import { ReqTag, getTagList } from "../../request/req_tag";
 interface HeadProps {
   setDark: (value: ((prevState: boolean) => boolean) | boolean) => void;
   isDark: boolean;
-  setVisible: (value: ((prevState: boolean) => boolean) | boolean) => void;
-  visible: boolean;
 }
 
-const Head = ({ setDark, isDark, setVisible }: HeadProps) => {
+const Head = ({ setDark, isDark }: HeadProps) => {
   //路由跳转
   const navigate = useNavigate();
   //移动端适配
@@ -25,10 +29,40 @@ const Head = ({ setDark, isDark, setVisible }: HeadProps) => {
 
   //滚动栏是否处于顶部
   const isAtTop = useIsAtTop();
+  const [tags, settags] = useState<ReqTag[]>([]);
+  const [cates, setcates] = useState<ReqCate[]>([]);
+  const [siteinfo, setsiteinfo] = useState<{ key: string; value: string }[]>([]);
+  const [visible,setVisible] = useState<boolean>(false);
   //开启状态栏
   const onSide = () => {
     setVisible(true);
   };
+  // 关闭状态栏
+  const offSide = () => {
+    setVisible(false);
+  };
+  useEffect(() => {
+    const getTags = async () => {
+      const res = await getTagList();
+      settags(res.data as ReqTag[]);
+    };
+    const getCates = async () => {
+      const res = await getCateList();
+      setcates(res.data as ReqCate[]);
+    };
+    const getSite = async () => {
+      const res = await getSiteInfo();
+      setsiteinfo(
+        Object.entries(res.data).map(([key, value]) => ({
+          key: SitekeyValueArray[key],
+          value: value as string,
+        }))
+      );
+    };
+    getCates();
+    getTags();
+    getSite();
+  }, []);
   //主题切换
   const switchMode = () => {
     const body = document.body;
@@ -168,6 +202,23 @@ const Head = ({ setDark, isDark, setVisible }: HeadProps) => {
           
         </div>
       </Modal>
+      <SideSheet
+        title="星空未来的个人博客"
+        visible={visible}
+        onCancel={offSide}
+        placement="left"
+        width={270}
+      >
+        <div className="side-item">
+          <p>留言板</p>
+          <p>关于</p>
+        </div>
+        <HomeCard title="分类" color="violet" values={cates} />
+        <br></br>
+        <HomeCard title="标签" color="blue" values={tags} />
+        <br></br>
+        <InfoCard title="站点信息" data={siteinfo} />
+      </SideSheet>
     </div>
   );
 };
