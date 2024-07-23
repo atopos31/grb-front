@@ -11,13 +11,18 @@ export interface FormState {
     root_id: number | undefined
 }
 
-export const createRootComment = (commentForm: FormState,uuid: number | undefined) => {
+export const createRootComment = (commentForm: FormState, uuid: number | undefined) => {
     return http.post("/comment/create", { article_id: uuid, content: commentForm.content, user_name: commentForm.name, email: commentForm.email, web_site: commentForm.website })
+}
+
+export const replyComment = (commentFoem: FormState,replycontent : string, uuid: number | undefined, root_id: number | undefined, parent_id?: number | undefined) => {
+    return http.post("/comment/create", { article_id: uuid, content: replycontent, user_name: commentFoem.name, email: commentFoem.email, web_site: commentFoem.website, parent_id: parent_id, root_id: root_id })
 }
 
 export interface ChildComment {
     id: number;
-    parentId: number | null;
+    rootId: number | undefined;
+    parentId: number | undefined;
     content: string;
     userName: string;
     avatar: string;
@@ -36,6 +41,6 @@ export interface AComment {
     createdAt: number;
     child_comment: ChildComment[];
 }
-export const getCommentList = (uuid: string | undefined)=> {
+export const getCommentList = (uuid: string | undefined) => {
     return http.get(`/comment/list/${uuid}`)
 }

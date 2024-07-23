@@ -16,8 +16,9 @@ import {
   ChildComment,
   FormState,
   getCommentList,
+  replyComment,
 } from "../../request/req_comment";
-import { Modal, Spin } from "@douyinfe/semi-ui";
+import { Modal, Spin, TextArea, Toast } from "@douyinfe/semi-ui";
 import MarkDown from "../../components/MarkDown";
 
 const ArticelView = () => {
@@ -68,23 +69,52 @@ const ArticelView = () => {
     initdata();
   }, [uuid]);
 
+  const [replyContent, setReplyContent] = useState<string>("");
+
   const replyRender = () => {
-    // replyItem类型断言
-    if (replyItem as AComment) {
-      return (
-        <div>
-          正在回复@{replyItem?.userName}:{replyItem?.content}
-        </div>
+    return (
+      <div>
+        正在回复@{replyItem?.userName}:{replyItem?.content}
+        <TextArea
+          style={{ marginTop: "20px" }}
+          maxCount={100}
+          showClear
+          value={replyContent}
+          onChange={(v) => {
+            setReplyContent(v);
+          }}
+        />
+      </div>
+    );
+  };
+
+  const reply = async () => {
+    let res: any;
+    if ((replyItem as ChildComment).rootId) {
+      res = await replyComment(
+        formState,
+        replyContent,
+        article?.uuid,
+        (replyItem as ChildComment).rootId,
+        (replyItem as ChildComment).id
       );
-    } else if (replyItem as ChildComment) {
-      return (
-        <div>
-          正在回复@{replyItem?.userName}:{replyItem?.content}
-        </div>
+    } else  {
+      res = await replyComment(
+        formState,
+        replyContent,
+        article?.uuid,
+        replyItem?.id
       );
-    } else {
-      return "错误";
+    } 
+
+    if (res.code == 200) {
+      Toast.success("回复成功");
+      setReplyContent("")
+      setReplyVisible(false)
+    } else if (res.code == 400) {
+      Toast.error("参数不全，确认填好信息？");
     }
+
   };
 
   return isLoading ? (
@@ -180,6 +210,7 @@ const ArticelView = () => {
         onCancel={() => {
           setReplyVisible(false);
         }}
+        onOk={reply}
         closeOnEsc={true}
         centered={true}
       >
