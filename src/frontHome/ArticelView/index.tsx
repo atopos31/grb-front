@@ -209,10 +209,12 @@ const ArticelView = () => {
         visible={replyVisible}
         onCancel={() => {
           setReplyVisible(false);
+          setReplyContent("");
         }}
         onOk={reply}
         closeOnEsc={true}
         centered={true}
+        style={{maxWidth: "648px",width: "90%"}}
       >
         {replyRender()}
       </Modal>

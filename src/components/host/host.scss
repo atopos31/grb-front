@@ -1,0 +1,36 @@
+.host {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    width: auto;
+}
+
+.host-cpu {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.host-mem {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.host-net {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.host-net-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 72px;
+    width: 72px;
+    font-size: small;
+    gap: 5px;
+}
