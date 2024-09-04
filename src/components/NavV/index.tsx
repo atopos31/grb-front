@@ -1,4 +1,4 @@
-import { IconBookmark, IconEdit, IconPriceTag } from "@douyinfe/semi-icons";
+import { IconBookmark, IconComment, IconEdit, IconPriceTag } from "@douyinfe/semi-icons";
 import { Nav } from "@douyinfe/semi-ui";
 import { OnSelectedData } from "@douyinfe/semi-ui/lib/es/navigation";
 import { ReactText, useEffect, useState } from "react";
@@ -31,6 +31,27 @@ const items = [
     text: "标签管理",
     icon: <IconPriceTag />,
     items: [],
+  },
+  {
+    itemKey: "/console/comments",
+    text: "评论管理",
+    icon: <IconComment />,
+    items: [
+      {
+        itemKey: "/console/comments/pending",
+        text: "待审核",
+      },
+      {
+        itemKey: "/console/comments/approved",
+        text: "已通过",
+      },
+      {
+        itemKey: "/console/comments/rejected",
+        text: "未通过",
+      },
+
+
+    ],
   },
 
 ];

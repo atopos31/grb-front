@@ -20,10 +20,11 @@ interface Net {
 
 const targetURL = import.meta.env.VITE_TARGET_URL
 const baseURL = import.meta.env.VITE_API_URL
-const token = getToken()
+
 const url = `${targetURL}${baseURL}/host/get`
 
 export const HstSSE = ()=> {
+    const token = getToken()
     return new EventSourcePolyfill(
         url,
         {

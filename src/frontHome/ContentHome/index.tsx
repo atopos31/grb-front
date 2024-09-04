@@ -17,7 +17,6 @@ export const SitekeyValueArray: {[key: string]: string} = {
   "categorycount": "分类数",
   "tagcount": "标签数",
   "viewscount": "访问量",
-  "record": "备案号",
 };
 const ContentHome = () => {
   const biggerThan768 = useMediaPredicate("(min-width: 768px)");

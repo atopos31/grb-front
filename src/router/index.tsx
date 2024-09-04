@@ -12,6 +12,7 @@ import TagManage from "../console/TagManage";
 import ArticelView from "../frontHome/ArticelView";
 import Comments from "../frontHome/comments";
 import NotFound from "../frontHome/404";
+import CommentManage from "../console/commentManage/commentManage";
 
 const router = createBrowserRouter([
   {
@@ -35,11 +36,11 @@ const router = createBrowserRouter([
       {
         //文章页 uuid对应文章id
         path: "article/:uuid",
-        element: <ArticelView/>,
+        element: <ArticelView />,
       },
       {
         path: "*",
-        element: <NotFound/>
+        element: <NotFound />,
       },
     ],
   },
@@ -77,6 +78,23 @@ const router = createBrowserRouter([
       {
         path: "categories",
         element: <CategoryManage />,
+      },
+      {
+        path: "comments",
+        children: [
+          {
+            path: "pending",
+            element: <CommentManage status={0} />,
+          },
+          {
+            path: "approved",
+            element: <CommentManage status={1}/>,
+          },
+          {
+            path: "rejected",
+            element: <CommentManage status={2}/>,
+          },
+        ],
       },
     ],
   },
