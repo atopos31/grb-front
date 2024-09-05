@@ -21,14 +21,18 @@ const defultTheme = localDefultTheme
 
 const Console = () => {
   // 检测是否登录
-  const token = getToken();
-  if (!token) {
-    Toast.error({
-      content: "请先登录",
-      duration: 2,
-    });
-    location.href = "/console/login";
-  }
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      Toast.error({
+        content: "请先登录",
+        duration: 2,
+      });
+      location.href = "/console/login";
+    }
+  })
+
+
   //全局黑暗 白天模式切换
   const [isDark, setDark] = useState(defultTheme);
 

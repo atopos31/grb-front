@@ -59,3 +59,8 @@ export const getCommentList = (uuid: string | undefined) => {
 export const getCommentListByStatus = (status: number) => {
     return http.get(`/comment/manage/list/${status}`)
 }
+
+export const updateComment = (id: string,status:string) => {
+    return http.put(`/comment/manage/${id}/${status}`)
+
+}

@@ -84,15 +84,15 @@ const router = createBrowserRouter([
         children: [
           {
             path: "pending",
-            element: <CommentManage status={0} />,
+            element: <CommentManage status={0} key="pending"/>,
           },
           {
             path: "approved",
-            element: <CommentManage status={1}/>,
+            element: <CommentManage status={1} key="approved" />,
           },
           {
             path: "rejected",
-            element: <CommentManage status={2}/>,
+            element: <CommentManage status={2} key="rejected" />,
           },
         ],
       },

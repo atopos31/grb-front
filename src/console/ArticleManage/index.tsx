@@ -74,7 +74,13 @@ const ArticleManage = () => {
   // 监听页数变化 搜索标题变化 所选分类变化
   useEffect(() => {
     getArticles();
-  }, [currentPage, searchTitle, cate]);
+  }, [currentPage]);
+  // 搜索内容和分类变化时 重置当前页
+  useEffect(() => {
+    setCurrentPage(1);
+    getArticles();
+  },[searchTitle, cate])
+
 
   const coverrender = (text: any) => {
     return (
