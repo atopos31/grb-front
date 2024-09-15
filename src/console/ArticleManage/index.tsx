@@ -77,10 +77,12 @@ const ArticleManage = () => {
   }, [currentPage]);
   // 搜索内容和分类变化时 重置当前页
   useEffect(() => {
-    setCurrentPage(1);
-    getArticles();
-  },[searchTitle, cate])
-
+    if (currentPage == 1) {
+      getArticles();
+    } else {
+      setCurrentPage(1);
+    }
+  }, [searchTitle, cate]);
 
   const coverrender = (text: any) => {
     return (
