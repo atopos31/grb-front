@@ -1,6 +1,6 @@
 import { Progress } from "@douyinfe/semi-ui";
 import "./host.scss"
-import { Host } from "../../request/req_host";
+import { Host } from "../../request/req_system";
 import { IconArrowDown, IconArrowUp } from "@douyinfe/semi-icons";
 
 const CpuUsageChart = ({ cpuPrecent, mem,net }: Host) => {
