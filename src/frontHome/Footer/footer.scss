@@ -3,7 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 20px;
+  padding: 20px;
+  background-color: rgba(var(--semi-grey-0), 0.75);
 }
 
 .content {

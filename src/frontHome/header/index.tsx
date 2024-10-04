@@ -94,7 +94,7 @@ const Head = ({ setDark, isDark }: HeadProps) => {
       <div className="Navf">
         <Nav
           style={{
-            backgroundColor: "rgba(var(--semi-grey-1), 0.85)",
+            backgroundColor: isAtTop ? "rgba(var(--semi-grey-1), 0.85)" : "",
             border: isAtTop ? "none" : "",
           }}
           mode={"horizontal"}
