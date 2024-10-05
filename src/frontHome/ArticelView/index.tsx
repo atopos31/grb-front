@@ -146,7 +146,7 @@ const ArticelView = () => {
           <div className="article-content">
             <div className="summary">
               <div className="summary-title">
-                <img src="../src\assets\android.svg" alt="" />
+                <img src="/android.svg" alt="" />
                 <span>由ChatGPT生成的文章摘要</span>
               </div>
               <div className="summary-content">
