@@ -24,12 +24,14 @@ const CategoryManage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(8);
   const [total, setTotal] = useState(0);
-  const [cateList, setCateList] = useState<ReqManageCate[]>([]);
+  const [cateList, setCateList] = useState<ReqManageCate[]>();
 
   const getCates = async () => {
     const res = await getCateManageList(currentPage, pageSize);
-    setTotal(res.data.count);
-    setCateList(res.data.list as ReqManageCate[]);
+    if (res.data.count > 0) {
+      setTotal(res.data.count);
+      setCateList(res.data.list);
+    }
   };
 
   const handlePageChange = (currentPage: any) => {
@@ -48,7 +50,7 @@ const CategoryManage = () => {
   };
   // 新增分类
   const handleOk = async () => {
-    if (cateList.map((item) => item.name).includes(newCate)) {
+    if (cateList?.map((item) => item.name).includes(newCate)) {
       Toast.error("该分类已存在");
       return;
     }
@@ -96,7 +98,7 @@ const CategoryManage = () => {
     };
     // 分类删除
     const ConfirmDeleteCate = async (id: number) => {
-      setCateList(cateList.filter((item) => item.id !== id));
+      setCateList(cateList?.filter((item) => item.id !== id));
       const res: any = await deleteCate(id);
       getCates();
       if (res.code === 200) {
@@ -185,7 +187,9 @@ const CategoryManage = () => {
         title="编辑分类"
         visible={editorVisible}
         onOk={handleEditorOk}
-        onCancel={()=>{setEditorVisible(false)}}
+        onCancel={() => {
+          setEditorVisible(false);
+        }}
         closeOnEsc={true}
       >
         <Input
