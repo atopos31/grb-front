@@ -28,8 +28,10 @@ const TagManage = () => {
 
   const getTags = async () => {
     const res = await getTagManageList(currentPage, pageSize);
-    setTotal(res.data.count);
-    setTagList(res.data.list as ReqManageTag[]);
+    if (res.data.count > 0) {
+      setTotal(res.data.count);
+      setTagList(res.data.list as ReqManageTag[]);
+    }
   };
 
   const handlePageChange = (currentPage: any) => {
