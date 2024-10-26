@@ -6,7 +6,7 @@ import SocialButton from "../../components/buttons/socialButton";
 import { Pagination } from "@douyinfe/semi-ui";
 import HomeCard from "../../components/homeCard/homecard";
 import InfoCard from "../../components/infoCard/infoCard";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { ReqTag, getTagList } from "../../request/req_tag";
 import { ReqCate, getCateList } from "../../request/req_cate";
 import { getSiteBasicInfo, getSiteInfo } from "../../request/req_siteinfo";
@@ -68,15 +68,16 @@ const ContentHome = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [articleList, setArticleList] = useState<ArticleItem[]>([]);
-  useEffect(() => {
-    const getArticles = async () => {
-      const res = await getArticleList(currentPage, pageSize);
-      setTotal(res.data.count);
-      let articleList : ArticleItem[] = res.data.list;
-      setArticleList(articleList);
-    };
+
+  const getArticles = async () => {
+    const res = await getArticleList(currentPage, pageSize);
+    setTotal(res.data.count);
+    setArticleList(res.data.list);
+  };
+
+  useLayoutEffect(() => {
     getArticles();
-  }, [currentPage]);
+  }, [currentPage,pageSize]);
 
   return (
     <div className="home-main">
