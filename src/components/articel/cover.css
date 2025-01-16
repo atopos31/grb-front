@@ -18,6 +18,7 @@
   letter-spacing: 0.5px;
   margin: 20px;
   transition: all 0.35s ease;
+  text-decoration: none;
 }
 
 .cover-title:hover {
@@ -60,6 +61,7 @@
   letter-spacing: 0.5px;
   transition: all 0.35s ease;
   margin: 20px;
+  text-decoration: none;
 }
 
 .coverwith-title:hover {

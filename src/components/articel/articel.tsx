@@ -115,7 +115,9 @@ export const CoverNoWith = ({
     <div className="cover">
       <a
         className="cover-title"
-        onClick={() => {
+        href={`/article/${uuid}`}
+        onClick={(event) => {
+          event.preventDefault();
           Navigate(`/article/${uuid}`);
         }}
       >
@@ -149,7 +151,9 @@ const CoverWith = ({ title, img, createTime, updateTime,uuid ,category}: CoverWi
       <div className="coverwith-content">
         <a
           className="coverwith-title"
-          onClick={() => {
+          href={`/article/${uuid}`}
+          onClick={(event) => {
+            event.preventDefault();
             Navigate(`/article/${uuid}`);
           }}
         >
